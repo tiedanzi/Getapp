@@ -1,0 +1,1057 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+<style type="text/css">
+    .app_custom_icon {
+        width: 30px;
+        height: 30px;
+    }
+    .layui-tab-title .layui-this {
+        color: black;
+    }
+
+    .layui-tab-title li:hover {
+        color: black;
+    }
+</style>
+<body>
+<div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-share" id="layuiadmin-form-share"
+     style="padding: 20px 30px 30px 30px; background-color: white">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">打包模式 </label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input name="platform_type" lay-filter="platform_type" type="radio" id="platform_type-0" value="0" title="原生安卓" {if
+                   condition="$info['platform_type'] eq 0" }checked {/if}>
+            <input name="platform_type" lay-filter="platform_type" type="radio" id="platform_type-1" value="1" title="跨平台(Flutter)" {if
+                   condition="$info['platform_type'] eq 1" }checked {/if}>
+
+        </div>
+    </div>
+
+    <div class="layui-form-item build_type"  {if condition="$info['platform_type'] eq 0" }style="display:none" {/if}>
+        <label class="layui-form-label" style="width: 180px">打包平台 </label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input name="build_type" type="radio" id="build_type-0" value="0" title="全部" {if
+                   condition="$info['build_type'] eq 0" }checked {/if}>
+            <input name="build_type" type="radio" id="build_type-1" value="1" title="Android" {if
+                   condition="$info['build_type'] eq 1" }checked {/if}>
+            <input name="build_type" type="radio" id="build_type-2" value="2" title="IOS" {if
+                   condition="$info['build_type'] eq 2" }checked {/if}>
+
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">APP名称 </label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="app_name" lay-verify="required" value="{$info.app_name}"
+                   placeholder="APP名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">APP图标 </label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input type="text" style="width:500px" lay-verify="required" name="app_icon" placeholder="设置APP图标"
+                   value="{$info.app_icon}" autocomplete="off" class="layui-input upload-input layui-disabled" disabled>
+        </div>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;" id="showpic_position">
+            <button type="button" class="layui-btn  layui-upload">上传图片
+            </button>
+            <div style="margin-left: 16px;margin-top: 10px">
+                <span></span><br>
+            </div>
+        </div>
+
+        <div class="showpic" style="display:none;"><img class="app_icon" width="120" height="160"></div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">建议尺寸：1024*1024</div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">APP开屏图片 </label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input type="text" style="width:500px" lay-verify="required" name="file" placeholder="设置APP开屏图片"
+                   value="{$info.splash_img}" class="layui-input upload-input2 layui-disabled" disabled>
+        </div>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;" id="showpic_position2">
+            <button type="button" class="layui-btn  layui-upload2">上传图片
+            </button>
+            <div style="margin-left: 16px;margin-top: 10px">
+            </div>
+        </div>
+        <div class="showpic2" style="display:none;"><img class="splash_img" width="120" height="160"></div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">建议尺寸：1080*1920</div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">版本号 </label>
+        <div class="layui-input-inline">
+            <input style="width:50px;float: left" type="text" name="app_version" lay-verify="required" maxlength="2"
+                   placeholder="1" value="{$info.app_version|default=1}"
+                   autocomplete="off" class="layui-input">
+            <input style="width:50px;float: left" type="text" name="app_version2" lay-verify="required" maxlength="1"
+                   placeholder="0" value="{$info.app_version2|default=0}"
+                   autocomplete="off" class="layui-input">
+            <input style="width:50px;float: left" type="text" name="app_version3" lay-verify="required" maxlength="1"
+                   placeholder="0" value="{$info.app_version3|default=0}"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">接口加密Key </label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="api_secret_key" maxlength="16" lay-verify="required"
+                   value="{$info.api_secret_key}"
+                   placeholder="接口加密Key(任意16位字符串)" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux getapp-word-aux-danger">
+        <div>APP与服务器接口通信加密KEY，修改后旧版APP无法打开，只能下发更新!</div>
+    </div>
+
+    <div class="platform_type" {if condition="$info['platform_type'] eq 1" }style="display:none" {/if}>
+        <div class="layui-form-item" >
+            <label for="theme_color" class="layui-form-label" style="width: 180px">主题颜色 </label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <div class="layui-inline">
+                    <input type="text" id="theme_color" name="theme_color" lay-verify="required" class="layui-input"
+                           placeholder="主题颜色" value="{$info.theme_color|default='#F9B492'}">
+                </div>
+                <div class="layui-inline"><span id="theme_color_sel"></span></div>
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">示例：#F9B492（橙色）</div>
+
+       </div>
+
+    <div class="layui-form-item platform_type" {if condition="$info['platform_type'] eq 1" }style="display:none" {/if}>
+        <label class="layui-form-label" style="width: 180px">主题风格 </label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input name="theme_style" type="radio" id="theme_style-2" value="2" title="炫彩" {if
+                   condition="$info['theme_style'] eq 2" }checked {/if}>
+            <input name="theme_style" type="radio" id="theme_style-1" value="1" title="简约" {if
+                   condition="$info['theme_style'] eq 1" }checked {/if}>
+
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">默认暗黑模式</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input name="is_dark_mode" type="radio" value="0" title="否" {if
+                   condition="$info['is_dark_mode'] eq 0" }checked {/if}>
+            <input name="is_dark_mode" type="radio" value="1" title="是" {if
+                   condition="$info['is_dark_mode'] eq 1" }checked {/if}>
+
+        </div>
+    </div>
+
+<div class="getapp-type-box">
+        <p class="getapp-theme-color" style="font-size:16px">以下参数选填，不填写也可以正常打包！</p>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">APP包名(选填)</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="app_package_name" value="{$info.app_package_name}"
+                       placeholder="APP包名" autocomplete="off" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">
+            留空时由系统生成，若无特殊需求，建议默认
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">Keystore文件(选填)</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input type="text" style="width:500px" name="app_key_store" placeholder="上传APP签名文件"
+                       value="{$info.app_key_store}" autocomplete="off" class="layui-input upload-input3 layui-disabled" disabled>
+            </div>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <button type="button" class="layui-btn  layui-upload3">上传文件
+                </button>
+                <div style="margin-left: 16px;margin-top: 10px">
+                    <span></span><br>
+                </div>
+            </div>
+
+            <div class="showpic" style="display:none;"><img class="app_icon" width="120" height="160"></div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">
+            APP打包签名文件，文件后缀为.jks或.keystore，留空使用默认签名文件（签名文件，签名密码，密钥别名，密钥密码要么都填，要么都不填）
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">Keystore密码(选填)</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="app_key_store_password"
+                       value="{$info.app_key_store_password}"
+                       placeholder="Keystore密码" autocomplete="off" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">APP打包签名文件密码，留空使用默认值</div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">密钥别名(选填)</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="app_key_alias" value="{$info.app_key_alias}"
+                       placeholder="密钥别名" autocomplete="off" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">密钥别名，留空使用默认值</div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">密钥密码(选填)</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="app_key_alias_password"
+                       value="{$info.app_key_alias_password}"
+                       placeholder="密钥密码" autocomplete="off" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">密钥密码，留空使用默认值</div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">动态域名（选填） </label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="dynamic_domain" value="{$info.dynamic_domain}"
+                       placeholder="动态域名文件地址" autocomplete="off" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">支持多个动态域名文件地址，逗号隔开，如：【http://domain/1.txt,http://domain2/2.txt】</div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">
+           每个动态域名文件支持填写多个接口域名，换行分割，将域名地址例如：http://www.app.com，放入txt文件中，再把这个文件传到OSS，填写OSS文件地址即可
+        </div>
+
+      <div class="platform_type" {if condition="$info['platform_type'] eq 1" }style="display:none" {/if}>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 180px">阿里云是否为国际版</label>
+
+                <div class="layui-input-block">
+                    <input name="aliyun_license_is_sea" type="radio" id="status-0" value="0" title="否" {if
+                           condition="$info['aliyun_license_is_sea'] eq 0" }checked {/if}>
+                    <input name="aliyun_license_is_sea" type="radio" id="status-1" value="1" title="是" {if
+                           condition="$info['aliyun_license_is_sea'] eq 1" }checked {/if}>
+
+                </div>
+
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 180px">阿里云License（选填）</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <input style="width:500px" type="text" name="aliyun_license_key" value="{$info.aliyun_license_key}"
+                           placeholder="阿里云License Key" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux">填写后可选择阿里云内核播放。申请时，包名要填写正确，可以不绑定签名！<a
+                    href="https://help.aliyun.com/zh/vod/developer-reference/license-authorization-and-management"
+                    target="_blank" style="text-decoration:underline">点击查看申请教程</a></div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 180px">腾讯云License URL（选填）</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <input style="width:500px" type="text" name="tencent_license_url" value="{$info.tencent_license_url}"
+                           placeholder="腾讯云License URL（选填）" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux">
+                腾讯云播放器，12元/年（腾讯收费，不是插件收费），填写后可选择腾讯云内核播放。申请时，包名要填写正确！(License
+                URL，License KEY，要么都填，要么都不填)<a href="https://cloud.tencent.com/document/product/881/74588"
+                                              target="_blank"
+                                              style="text-decoration:underline">点击查看申请教程</a></div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 180px">腾讯云License KEY（选填）</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <input style="width:500px" type="text" name="tencent_license_key" value="{$info.tencent_license_key}"
+                           placeholder="腾讯云License KEY（选填）" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux">License URL，License KEY，要么都填，要么都不填</div>
+      </div>
+
+        <div class="build_type" {if condition="$info['platform_type'] eq 0" }style="display:none" {/if}>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 180px">IOS证书文件</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <input type="text" style="width:500px" name="cert_url" placeholder="上传P12证书文件"
+                           value="{$info.cert_url}" autocomplete="off" class="layui-input upload-input-p12 layui-disabled" disabled>
+                </div>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <button type="button" class="layui-btn  layui-upload-p12">上传文件
+                    </button>
+                    <div style="margin-left: 16px;margin-top: 10px">
+                        <span></span><br>
+                    </div>
+                </div>
+
+                <div class="showpic" style="display:none;"><img class="app_icon" width="120" height="160"></div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">
+                IOS打包证书文件，文件后缀为.P12
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 180px">IOS证书密码</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <input style="width:500px" type="text" name="cert_password"
+                           value="{$info.cert_password}"
+                           placeholder="证书密码" autocomplete="off" class="layui-input">
+                </div>
+
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">密钥密码，留空使用默认值</div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 180px">IOS描述文件</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <input type="text" style="width:500px" name="provision_url" placeholder="上传描述文件"
+                           value="{$info.provision_url}" autocomplete="off" class="layui-input upload-input-mobileprovision layui-disabled" disabled>
+                </div>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <button type="button" class="layui-btn  layui-upload-mobileprovision">上传文件
+                    </button>
+                    <div style="margin-left: 16px;margin-top: 10px">
+                        <span></span><br>
+                    </div>
+                </div>
+
+                <div class="showpic" style="display:none;"><img class="app_icon" width="120" height="160"></div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">
+                IOS打包描述文件，文件后缀为.mobileprovision
+            </div>
+
+
+        </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 180px">友盟统计KEY（选填）</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <input style="width:500px" type="text" name="um_key" value="{$info.um_key}"
+                           placeholder="友盟统计KEY" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item build_type"  {if condition="$info['platform_type'] eq 0" }style="display:none" {/if}>
+                <label class="layui-form-label" style="width: 180px">IOS友盟统计KEY</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <input style="width:500px" type="text" name="um_key_ios" value="{$info.um_key_ios}"
+                           placeholder="友盟统计KEY" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 180px">TalkingData KEY</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <input style="width:500px" type="text" name="talking_data_key" value="{$info.talking_data_key}"
+                           placeholder="TalkingData统计KEY" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item build_type"  {if condition="$info['platform_type'] eq 0" }style="display:none" {/if}>
+                <label class="layui-form-label" style="width: 180px">IOS TalkingData KEY</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <input style="width:500px" type="text" name="talking_data_key_ios" value="{$info.talking_data_key_ios}"
+                           placeholder="IOS TalkingData统计KEY" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 180px">统计渠道名（选填）</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                    <input style="width:500px" type="text" name="statistic_channel" value="{$info.statistic_channel}"
+                           placeholder="统计渠道名，用于推广时不同渠道的统计" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux">
+                <p>用于多渠道推广时的统计，如：app在谷歌上推广，可填写【guge】或者【google】，也可以随意填写比如【abc】，统计渠道将会在统计站数据中体现</p>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 180px">广告联盟（选填）</label>
+                <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+
+                    <input name="ad_union" lay-filter="ad_union" type="radio" value="2" title="聚量磁力" {if
+                           condition="$info['ad_union'] eq 2" }checked {/if}><a
+                        style="margin-top: 10px;margin-right: 20px;text-decoration:underline"
+                        href="http://www.juliangcili.com" target="_blank">（访问官网）</a>
+                  <div class="platform_type" {if condition="$info['platform_type'] eq 1" }style="display:none" {/if}>
+                    <input name="ad_union" lay-filter="ad_union" type="radio" value="3" title="AppAd" {if
+                           condition="$info['ad_union'] eq 3" }checked {/if}><a
+                        style="margin-top: 10px;margin-right: 20px;text-decoration:underline"
+                        href="http://www.appad.top" target="_blank">（访问官网）</a>
+
+                    <input name="ad_union" lay-filter="ad_union" type="radio" value="1" title="杭州优量" {if
+                           condition="$info['ad_union'] eq 1" }checked {/if}><a
+                        style="margin-top: 10px;margin-right: 20px;text-decoration:underline"
+                        href="https://www.youlianghz.com" target="_blank">（访问官网）</a>
+                </div>
+
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux">
+                <p>【聚量磁力】老牌广告联盟，无日活要求【TG:@HZjlcl】</p>
+                <div class="platform_type" {if condition="$info['platform_type'] eq 1" }style="display:none" {/if}>
+                    <p>【AppAd】高填充高预算结算快,日活要求1w+【TG:@Appad77】</p>
+                    <p>【杭州优量】测试广告没问题后，需要联系广告商切换正式广告重新打包，不然不会产生收益,日活要求2k+【TG:@hanfeizizi】</p>
+                </div>
+            </div>
+
+
+            <div class="layui-form-item" id="cp_id" {if condition="$info['ad_union'] neq 1" }style="display:none" {/if}>
+            <label class="layui-form-label" style="width: 180px">开发者CPID（选填）</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="cp_id" value="{$info.cp_id}"
+                       placeholder="开发者ID（CPID）" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">应用id/APPID（选填）</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="app_id" value="{$info.app_id}"
+                   placeholder="APPID" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item" id="app_key" {if condition="$info['ad_union'] neq 3" }style="display:none" {/if}>
+        <label class="layui-form-label" style="width: 180px">APP KEY（选填）</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="app_key" value="{$info.app_key}"
+                   placeholder="APP KEY" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">开屏广告ID（选填）</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="splash_id" value="{$info.splash_id}"
+                   placeholder="开屏广告ID" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">插屏广告ID（选填）</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="insert_id" value="{$info.insert_id}"
+                   placeholder="插屏广告ID" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">激励视频ID（选填）</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="reward_id" value="{$info.reward_id}"
+                   placeholder="激励视频ID" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">Banner广告ID（选填）</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="banner_id" value="{$info.banner_id}"
+                   placeholder="Banner广告ID" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">信息流广告ID（选填）</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="feed_id" value="{$info.feed_id}"
+                   placeholder="信息流广告ID" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="build_type"  {if condition="$info['platform_type'] eq 0" }style="display:none" {/if}>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">IOS 应用id/APPID</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="app_id_ios" value="{$info.app_id_ios}"
+                       placeholder="IOS APPID （选填）" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">IOS 开屏广告ID</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="splash_id_ios" value="{$info.splash_id_ios}"
+                       placeholder="IOS 开屏广告ID （选填）" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">IOS 插屏广告ID</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="insert_id_ios" value="{$info.insert_id_ios}"
+                       placeholder="IOS 插屏广告ID （选填）" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">IOS 激励视频ID</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="reward_id_ios" value="{$info.reward_id_ios}"
+                       placeholder="IOS 激励视频ID （选填）" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">IOS Banner广告ID</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="banner_id_ios" value="{$info.banner_id_ios}"
+                       placeholder="IOS Banner广告ID （选填）" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">IOS 信息流广告ID</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="feed_id_ios" value="{$info.feed_id_ios}"
+                       placeholder="IOS 信息流广告ID （选填）" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="getapp-type-box platform_type"  {if condition="$info['platform_type'] eq 1" }style="display:none" {/if}>
+    <p class="getapp-theme-color" style="font-size:16px">自定义UI（选填）</p>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">自定义UI</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input name="app_custom_icon" lay-filter="app_custom_icon" type="radio" value="0" title="关闭" {if
+                   condition="$info['app_custom_icon'] eq 0" }checked {/if}>
+            <input name="app_custom_icon" lay-filter="app_custom_icon" type="radio" value="1" title="开启" {if
+                   condition="$info['app_custom_icon'] eq 1" }checked {/if}>
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">
+        <p>关闭状态下使用默认配置；开启状态下，只替换修改的配置，留空使用默认配置</p>
+<!--        <p>图标若使用svg,需要转换成xml上传，转换地址：<a-->
+<!--                style="margin-right: 20px;text-decoration:underline"-->
+<!--                href="https://inloop.github.io/svg2android/" target="_blank">svg2android</a></p>-->
+    </div>
+
+
+    <div id="app_custom_icon_box" {if condition="$info['app_custom_icon'] eq 0" } style="display:none" {/if}>
+    <div class="layui-form-item">
+        <label for="theme_color" class="layui-form-label" style="width: 180px">导航栏颜色-未选中 </label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <div class="layui-inline">
+                <input type="text" id="navbar_color_unselected" name="navbar_color_unselected" class="layui-input"
+                       placeholder="导航栏颜色-未选中" value="{$info.navbar_color_unselected|default='#bfbfbf'}">
+            </div>
+            <div class="layui-inline"><span id="navbar_color_unselected_sel"></span></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="theme_color" class="layui-form-label" style="width: 180px">导航栏颜色-选中 </label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <div class="layui-inline">
+                <input type="text" id="navbar_color_selected" name="navbar_color_selected" class="layui-input"
+                       placeholder="导航栏颜色-选中" value="{$info.navbar_color_selected|default='#111111'}">
+            </div>
+            <div class="layui-inline"><span id="navbar_color_selected_sel"></span></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="theme_color" class="layui-form-label" style="width: 180px">深色导航栏颜色-未选中 </label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <div class="layui-inline">
+                <input type="text" id="dark_navbar_color_unselected" name="dark_navbar_color_unselected" class="layui-input"
+                       placeholder="深色导航栏颜色-未选中" value="{$info.dark_navbar_color_unselected|default='#9E9E9E'}">
+            </div>
+            <div class="layui-inline"><span id="dark_navbar_color_unselected_sel"></span></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="theme_color" class="layui-form-label" style="width: 180px">深色导航栏颜色-选中 </label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <div class="layui-inline">
+                <input type="text" id="dark_navbar_color_selected" name="dark_navbar_color_selected" class="layui-input"
+                       placeholder="深色导航栏颜色-选中" value="{$info.dark_navbar_color_selected|default='#E0E0E0'}">
+            </div>
+            <div class="layui-inline"><span id="dark_navbar_color_selected_sel"></span></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">空数据提示</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="app_custom_empty_text" value="{$info.app_custom_empty_text|default='空空如也'}"
+                   placeholder="空数据提示" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+    <p class="getapp-theme-color" style="font-size:16px;margin-top: 5px">图标配置</p>
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            {volist name="app_custom_icons" id="icon_tab"}
+                <li class="{if condition='$icon_tab.style eq 1' }layui-this{/if}">{$icon_tab['tab']}</li>
+            {/volist}
+
+        </ul>
+        <div class="layui-tab-content">
+            {volist name="app_custom_icons" id="icon_tab"}
+            <div class="layui-tab-item {if condition='$icon_tab.style eq 1' }layui-show{/if}">
+            {volist name="icon_tab['list']" id="icon"}
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 180px">{$icon.name}</label>
+                        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                            <input type="text" style="width:500px" name="{$icon.key}" placeholder="{$icon.name}"
+                                   value="{$icon.value}" autocomplete="off" class="layui-input upload-input layui-disabled" disabled>
+                        </div>
+                        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                            <button type="button" class="layui-btn  layui-upload-app-custom-icon" data-name="{$icon.key}">上传图片
+                            </button>
+                            <div style="margin-left: 16px;margin-top: 10px">
+                                <span></span><br>
+                            </div>
+                        </div>
+                        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                            <img class="app_custom_icon" {if condition="$icon['value'] neq ''" }src="/{$icon.value}"{/if}>
+                        </div>
+                    </div>
+
+            {/volist}
+            </div>
+            {/volist}
+        </div>
+    </div>
+
+
+</div>
+
+</div>
+<div style="height: 100px"></div>
+
+
+
+<div class="layui-form-item center" style=" position: fixed;bottom: 0;left: 0; right: 0;background: #eeeeeed1">
+    <div class="layui-input-block" style="margin-left: 0;text-align: center;margin-top: 10px">
+        <button type="submit" class="layui-btn getapp-btn" lay-submit id="layuiadmin-app-form-submit"
+                lay-filter="layuiadmin-app-form-submit">发起打包
+        </button>
+
+        <div style="margin-top: 20px">
+            <div class="platform_type"  {if condition="$info['platform_type'] eq 1" }style="display:none" {/if}>
+            <a class="layui-btn getapp-btn" target="_blank" href="{$apk_data.apk_url}">上次打包下载</a>
+        </div>
+        </div>
+
+
+        <div class="build_type"  {if condition="$info['platform_type'] eq 0" }style="display:none;margin-top: 20px" {/if}>
+
+            <a class="layui-btn getapp-btn" target="_blank" href="{$apk_data.apk_url}">上次打包APK下载</a>
+            <a class="layui-btn getapp-btn" target="_blank" href="{$apk_data.ipa_url}">上次打包IPA下载</a>
+        </div>
+
+
+        {if condition="$apk_data.build_time neq 0 " }
+        <em>上次完成时间：{$apk_data.build_time}</em>
+        {/if}
+
+        {if condition="$apk_data.error_msg neq '' " }
+        <em style="color: #dc3545">{$apk_data.error_msg}</em>
+        {/if}
+
+
+    </div>
+
+</div>
+</div>
+
+{include file="../../../application/admin/view/getapp/public/foot" /}
+<script>
+    function isSingleDigit(number) {
+        return number >= 0 && number <= 9;
+    }
+
+    layui.config({
+        base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form', 'layer', 'upload', 'colorpicker'], function () {
+        var $ = layui.$
+            , layer = layui.layer, form = layui.form
+            , upload = layui.upload
+            , colorpicker = layui.colorpicker;
+
+        //初始色值
+        colorpicker.render({
+            elem: '#theme_color_sel'
+            , color: $("#theme_color").val()
+            , change: function (color) {
+                $("#theme_color").val(color);
+            }
+        });
+
+        //初始色值
+        colorpicker.render({
+            elem: '#navbar_color_unselected_sel'
+            , color: $("#navbar_color_unselected").val()
+            , change: function (color) {
+                $("#navbar_color_unselected").val(color);
+            }
+        });
+
+        //初始色值
+        colorpicker.render({
+            elem: '#navbar_color_selected_sel'
+            , color: $("#navbar_color_selected").val()
+            , change: function (color) {
+                $("#navbar_color_selected").val(color);
+            }
+        });
+
+        //初始色值
+        colorpicker.render({
+            elem: '#dark_navbar_color_selected_sel'
+            , color: $("#dark_navbar_color_selected").val()
+            , change: function (color) {
+                $("#dark_navbar_color_selected").val(color);
+            }
+        });
+
+        //初始色值
+        colorpicker.render({
+            elem: '#dark_navbar_color_unselected_sel'
+            , color: $("#dark_navbar_color_unselected").val()
+            , change: function (color) {
+                $("#dark_navbar_color_unselected").val(color);
+            }
+        });
+
+        form.on('submit(apk_download)', function (data) {
+            debugger
+        });
+
+        form.on('radio(platform_type)', function (data) {
+            debugger
+            if (data.value == 1) {
+                $(".build_type").show()
+                $(".platform_type").hide()
+            } else {
+                $(".build_type").hide()
+                $(".platform_type").show()
+            }
+
+        });
+
+        form.on('radio(ad_union)', function (data) {
+
+            if (data.value == 1) {
+                $("#cp_id").show()
+            } else {
+                $("#cp_id").hide()
+            }
+
+            if (data.value == 3) {
+                $("#app_key").show()
+            } else {
+                $("#app_key").hide()
+            }
+
+        });
+
+        form.on('radio(app_custom_icon)', function (data) {
+
+            if (data.value == 1) {
+                $("#app_custom_icon_box").show()
+            } else {
+                $("#app_custom_icon_box").hide()
+            }
+
+        });
+
+        //监听提交
+        form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            var field = data.field; //获取提交的字段
+
+            console.log(field.app_version2);
+            if (!isSingleDigit(field.app_version2)) {
+                layer.msg("版本号第二位只能0-9");
+                return false
+            }
+
+            if (!isSingleDigit(field.app_version3)) {
+                layer.msg("版本号第三位只能0-9");
+                return false
+            }
+
+            const version = field.app_version + "." + field.app_version2 + "." + field.app_version3;
+
+            const regex = /^\d+\.\d+\.\d+$/;
+
+            if (!regex.test(version)) {
+                layer.msg("版本号格式不正确");
+                return false
+            }
+
+            if (field.api_secret_key.length != 16) {
+                layer.msg("接口加密KEY必须16位");
+                return false
+            }
+
+            var file = $(".upload-input").val()
+            var file2 = $(".upload-input2").val()
+            var file3 = $(".upload-input3").val()
+            field.app_icon = file;
+            field.splash_img = file2;
+            field.app_key_store = file3;
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            layer.load(2)
+            $.ajax({
+                url: "save_app_build_form",
+                type: 'post',
+                data: field,
+                success: function (res) {
+                    layer.closeAll()
+                    let re = JSON.parse(res)
+                    if (re.code == 0) {
+                        layer.msg(re.msg);
+                    } else {
+                        layer.msg(re.msg);
+                    }
+
+                },
+                error: function (e) {
+                    layer.closeAll()
+                    layer.msg("失败")
+                }
+            })
+        });
+
+
+
+        upload.render({
+            elem: '.layui-upload'
+            , url: "{:url('upload')}?flag=app"
+            , method: 'post'
+            , size: "1024"
+            , exts: 'jpg|png|jpeg'
+            , before: function (input) {
+                layer.msg('文件上传中...', {time: 3000000});
+            }, done: function (res, index, upload) {
+                var obj = this.item;
+                if (res.code == 0) {
+                    layer.msg(res.msg);
+                    return false;
+                }
+                layer.closeAll();
+                var input = $(obj).parent().parent().find('.upload-input');
+                if ($(obj).attr('lay-type') == 'image') {
+                    input.siblings('img').attr('src', res.data.file).show();
+                }
+                input.val(res.data.file);
+
+                var icon = $(obj).parent().next().find('.app_custom_icon');
+                icon.attr('src', "/" + res.data.file);
+                console.info(res);
+
+                if (res.data.thumb_class != '') {
+                    $('.' + res.data.thumb_class).val(res.data.thumb[0].file);
+                }
+            }
+        });
+
+        upload.render({
+            elem: '.layui-upload2'
+            , url: "{:url('upload')}?flag=app"
+            , method: 'post'
+            , size: "3072"
+            , exts: 'jpg|png|jpeg'
+            , before: function (input) {
+                layer.msg('文件上传中...', {time: 3000000});
+            }, done: function (res, index, upload) {
+                var obj = this.item;
+                if (res.code == 0) {
+                    layer.msg(res.msg);
+                    return false;
+                }
+                layer.closeAll();
+                var input = $(obj).parent().parent().find('.upload-input2');
+                if ($(obj).attr('lay-type') == 'image') {
+                    input.siblings('img').attr('src', res.data.file).show();
+                }
+                input.val(res.data.file);
+                console.info(res);
+
+                if (res.data.thumb_class != '') {
+                    $('.' + res.data.thumb_class).val(res.data.thumb[0].file);
+                }
+            }
+        });
+
+        upload.render({
+            elem: '.layui-upload3'
+            , url: "{:url('upload')}?flag=app"
+            , method: 'post'
+            , size: "1024"
+            , accept: 'file'
+            , exts: 'jks|keystore'
+            , before: function (input) {
+                layer.msg('文件上传中...', {time: 3000000});
+            }, done: function (res, index, upload) {
+                var obj = this.item;
+                if (res.code == 0) {
+                    layer.msg(res.msg);
+                    return false;
+                }
+                layer.closeAll();
+                var input = $('.upload-input3');
+
+                input.val(res.data.file);
+                console.info(res);
+
+
+            }
+        });
+
+        upload.render({
+            elem: '.layui-upload-p12'
+            , url: "{:url('upload')}?flag=app"
+            , method: 'post'
+            , size: "1024"
+            , accept: 'file'
+            , exts: 'p12'
+            , before: function (input) {
+                layer.msg('文件上传中...', {time: 3000000});
+            }, done: function (res, index, upload) {
+                var obj = this.item;
+                if (res.code == 0) {
+                    layer.msg(res.msg);
+                    return false;
+                }
+                layer.closeAll();
+                var input = $('.upload-input-p12');
+
+                input.val(res.data.file);
+                console.info(res);
+
+
+            }
+        });
+
+        upload.render({
+            elem: '.layui-upload-mobileprovision'
+            , url: "{:url('upload')}?flag=app"
+            , method: 'post'
+            , size: "1024"
+            , accept: 'file'
+            , exts: 'mobileprovision'
+            , before: function (input) {
+                layer.msg('文件上传中...', {time: 3000000});
+            }, done: function (res, index, upload) {
+                var obj = this.item;
+                if (res.code == 0) {
+                    layer.msg(res.msg);
+                    return false;
+                }
+                layer.closeAll();
+                var input = $('.upload-input-mobileprovision');
+
+                input.val(res.data.file);
+                console.info(res);
+
+
+            }
+        });
+
+
+
+        upload.render({
+            elem: '.layui-upload-app-custom-icon'
+            , url: "{:url('upload')}?flag=app"
+            , method: 'post'
+            , size: "1000"
+            , accept: 'file'
+            , exts: 'jpg|png|gif|jpeg|xml'
+
+            , before: function (input) {
+                var obj = this.item;
+                this.data = {
+                    file_name: $(obj).attr("data-name"),
+                }
+                layer.msg('文件上传中...', {time: 3000000});
+            }, done: function (res, index, upload) {
+                var obj = this.item;
+                if (res.code == 0) {
+                    layer.msg(res.msg);
+                    return false;
+                }
+                layer.closeAll();
+                var input = $(obj).parent().parent().find('.upload-input');
+                if ($(obj).attr('lay-type') == 'image') {
+                    input.siblings('img').attr('src', res.data.file).show();
+                }
+                input.val(res.data.file);
+
+                var icon = $(obj).parent().next().find('.app_custom_icon');
+                icon.attr('src', "/" + res.data.file);
+                console.info(res);
+
+                if (res.data.thumb_class != '') {
+                    $('.' + res.data.thumb_class).val(res.data.thumb[0].file);
+                }
+
+
+            }
+        });
+
+        $('.upload-input').hover(function (e) {
+            var e = window.event || e;
+            var imgsrc = $(this).val();
+            if (imgsrc.trim() == "") {
+                return;
+            }
+            var showpic_position = document.getElementById('showpic_position');
+            var inputRect = showpic_position.getBoundingClientRect(); // 获取输入框的位置信息
+            var top = inputRect.top + 'px';
+            var left = (inputRect.right + 20) + 'px';
+            $(".showpic").css({left: left, top: top, display: "inline", position: "absolute"});
+            if (imgsrc.indexOf('://') < 0) {
+                imgsrc = ROOT_PATH + '/' + imgsrc;
+            } else {
+                imgsrc = imgsrc.replace('mac:', 'http:');
+            }
+            $(".app_icon").attr("src", imgsrc);
+        }, function (e) {
+            $(".showpic").css("display", "none");
+        });
+
+        $('.upload-input2').hover(function (e) {
+            var e = window.event || e;
+            var imgsrc = $(this).val();
+            if (imgsrc.trim() == "") {
+                return;
+            }
+            var showpic_position = document.getElementById('showpic_position2');
+            var inputRect = showpic_position.getBoundingClientRect(); // 获取输入框的位置信息
+            var top = inputRect.top + 'px';
+            var left = (inputRect.right + 20) + 'px';
+            $(".showpic2").css({left: left, top: top, display: "inline", position: "absolute"});
+            if (imgsrc.indexOf('://') < 0) {
+                imgsrc = ROOT_PATH + '/' + imgsrc;
+            } else {
+                imgsrc = imgsrc.replace('mac:', 'http:');
+            }
+            $(".splash_img").attr("src", imgsrc);
+        }, function (e) {
+            $(".showpic2").css("display", "none");
+        });
+
+
+    });
+</script>
+</body>
+
+</html>

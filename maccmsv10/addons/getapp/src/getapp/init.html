@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>APP安装</title>
+<meta name="renderer" content="webkit" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/static/layui/css/layui.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="/static/css/admin_style.css">
+<link rel="stylesheet" href="/static/css/install.css">
+<script src="/static/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="header">
+    <h1>感谢您选择『Getapp后台管理』苹果CMS-V10版</h1>
+</div>
+<div class="install-box">
+    <fieldset class="layui-elem-field site-demo-button">
+        <legend>APP后台管理使用须知</legend>
+        <div class="protocol">
+            <p>
+                一、后台管理介绍： <br /> <br />
+                本后台管理主要用于维护APP内的相关信息，如版本、广告位等。<br><br>
+                二、重要声明：  <br /> <br />
+				<b style="color:red">1、本后台管理仅作为APP模板的管理端，不存储任何视频链接和数据，所有数据均由资源站提供。
+				 </b><br /> <br />
+				2、本后台管理不提供无广告解析接口或者播放器，无广告解析接口需要自己准备或者购买播放器源码安装<br /> <br />
+				3、因为使用后台管理造成的侵权等问题，与本插件无关！<br /> <br />
+            </p>
+        </div>
+    </fieldset>
+    <div class="step-btns">
+	<form class="layui-form" action="">
+		<input id="btnReg" class="layui-btn layui-btn-disabled" disabled type="button" lay-submit lay-filter="insatll" value="我已了解并安装" />
+	</form>
+    </div>
+</div>
+<script>
+layui.use(['form', 'layer'], function(){
+  var form = layui.form
+                , layer = layui.layer
+                , $ = layui.jquery;
+  form.on('submit(insatll)', function(data){
+    layer.msg("安装中，请稍后")
+	$.ajax({
+        url:"getapp/install",
+        type:'post',
+        success:function(){
+            layer.msg("安装成功");
+            window.location.reload();
+        },
+        error : function(e){
+            layer.msg("失败，请检查是否拥有数据库操作权限")
+        }
+    })
+    return false;
+  });
+});
+</script>
+
+<script type="text/javascript">
+var s=5;
+function countsub()
+{
+ var btnReg=document.getElementById("btnReg");
+ if(btnReg)
+ {
+ if(s<=0)
+ {
+  btnReg.value="我已了解并安装插件";
+  btnReg.disabled=false;
+  $("input").removeClass("layui-btn-disabled");
+  $("input").addClass("layui-btn-normal");
+  clearInterval(id);
+ }
+ else
+ {
+  btnReg.value="请仔细阅读用户须知(还剩"+s+"秒)";
+  s--;
+ }
+ }
+}
+var id = setInterval('countsub()',500);
+</script>
+</body>
+</html>

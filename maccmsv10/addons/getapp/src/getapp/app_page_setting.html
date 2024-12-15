@@ -1,0 +1,296 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+    <div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-reg" id="layuiadmin-form-reg"
+        style="padding: 20px 30px 30px 30px; background-color: white">
+
+        <div class="getapp-type-box">
+
+            <!--        排行榜-->
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">排行榜开关</label>
+                <div class="layui-input-block">
+                    <input name="app_tab_rank" type="radio" value="0" title="关闭" {if
+                           condition="$info['app_tab_rank'] eq 0" }checked {/if}>
+                    <input name="app_tab_rank" type="radio" value="1" title="开启" {if
+                           condition="$info['app_tab_rank'] eq 1" }checked {/if}>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">排行榜名称</label>
+                <div class="layui-input-inline ">
+                    <input  type="text" name="app_tab_rank_name" placeholder="" value="{$info.app_tab_rank_name}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">排行榜排序</label>
+                <div class="layui-input-inline" >
+                    <input  type="number" name="app_tab_rank_sort" placeholder="填写数字，从小到大排列，相同的值按页面顺序排列" value="{$info.app_tab_rank_sort}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="getapp-type-box">
+            <!--        排期表-->
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">排期表开关</label>
+                <div class="layui-input-block">
+                    <input name="app_tab_week" type="radio" value="0" title="关闭" {if
+                           condition="$info['app_tab_week'] eq 0" }checked {/if}>
+                    <input name="app_tab_week" type="radio" value="1" title="开启" {if
+                           condition="$info['app_tab_week'] eq 1" }checked {/if}>
+                </div>
+            </div>
+            {eq name="index_exist" value="0"}
+            <div class="layui-form-mid layui-word-aux getapp-word-aux getapp-word-aux-danger" >该功能查询字段未加索引，查询会很慢，开启排期表后插件会自动加上索引</div>
+            {/eq}
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">排期表名称</label>
+                <div class="layui-input-inline" >
+                    <input  type="text" name="app_tab_week_name" placeholder="" value="{$info.app_tab_week_name}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">排期表排序</label>
+                <div class="layui-input-inline" >
+                    <input  type="number" name="app_tab_week_sort" placeholder="填写数字，从小到大排列，相同的值按页面顺序排列" value="{$info.app_tab_week_sort}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="getapp-type-box">
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">发现页开关</label>
+                <div class="layui-input-block">
+                    <input name="app_tab_find" type="radio" value="0" title="关闭" {if
+                           condition="$info['app_tab_find'] eq 0" }checked {/if}>
+                    <input name="app_tab_find" type="radio" value="1" title="开启" {if
+                           condition="$info['app_tab_find'] eq 1" }checked {/if}>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">发现页名称</label>
+                <div class="layui-input-inline" >
+                    <input  type="text" name="app_tab_find_name" placeholder="" value="{$info.app_tab_find_name}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">发现页链接</label>
+                <div class="layui-input-inline" >
+                    <input  type="text" name="app_tab_find_url" placeholder="" value="{$info.app_tab_find_url}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">发现页排序</label>
+                <div class="layui-input-inline" >
+                    <input  type="number" name="app_tab_find_sort" placeholder="填写数字，从小到大排列，相同的值按页面顺序排列" value="{$info.app_tab_find_sort}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="getapp-type-box">
+            <!--        排期表-->
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">专题页</label>
+                <div class="layui-input-block">
+                    <input name="app_tab_topic" type="radio" value="0" title="关闭" {if
+                           condition="$info['app_tab_topic'] eq 0" }checked {/if}>
+                    <input name="app_tab_topic" type="radio" value="1" title="开启" {if
+                           condition="$info['app_tab_topic'] eq 1" }checked {/if}>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">专题页名称</label>
+                <div class="layui-input-inline" >
+                    <input  type="text" name="app_tab_topic_name" placeholder="" value="{$info.app_tab_topic_name}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">专题页排序</label>
+                <div class="layui-input-inline" >
+                    <input  type="number" name="app_tab_topic_sort" placeholder="填写数字，从小到大排列，相同的值按页面顺序排列" value="{$info.app_tab_topic_sort}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+        </div>
+
+<!--        <div class="getapp-type-box">-->
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label getapp-label">Banner指示器</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input name="app_banner_indicator_type" type="radio" value="0" title="无标题" {if-->
+<!--                           condition="$info['app_banner_indicator_type'] eq 0" }checked {/if}>-->
+<!--                    <input name="app_banner_indicator_type" type="radio" value="3" title="数字" {if-->
+<!--                           condition="$info['app_banner_indicator_type'] eq 3" }checked {/if}>-->
+<!--                    <input name="app_tab_find" type="radio" value="5" title="圆点" {if-->
+<!--                           condition="$info['app_banner_indicator_type'] eq 5" }checked {/if}>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label getapp-label">Banner动画</label>-->
+<!--                <div class="layui-input-block">-->
+<!--                    <input name="app_banner_indicator_type" type="radio" value="0" title="默认" {if-->
+<!--                           condition="$info['app_banner_animate_type'] eq 0" }checked {/if}>-->
+<!--                    <input name="app_banner_indicator_type" type="radio" value="1" title="折叠" {if-->
+<!--                           condition="$info['app_banner_animate_type'] eq 1" }checked {/if}>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label getapp-label">播放源样式</label>
+                        <div class="layui-input-block">
+                            <input name="app_vod_source_type" type="radio" value="0" title="一排" {if
+                                   condition="$info['app_vod_source_type'] eq 0" }checked {/if}>
+                            <input name="app_vod_source_type" type="radio" value="1" title="两排" {if
+                                   condition="$info['app_vod_source_type'] eq 1" }checked {/if}>
+                        </div>
+                    </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label getapp-label">我的页面-版本号</label>
+            <div class="layui-input-block">
+                <input name="app_page_version_hide" type="radio" value="0" title="展示" {if
+                       condition="$info['app_page_version_hide'] eq 0" }checked {/if}>
+                <input name="app_page_version_hide" type="radio" value="1" title="隐藏" {if
+                       condition="$info['app_page_version_hide'] eq 1" }checked {/if}>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label getapp-label">播放页-封面</label>
+            <div class="layui-input-block">
+                <input name="app_page_vod_detail_pic_hide" type="radio" value="0" title="展示" {if
+                       condition="$info['app_page_vod_detail_pic_hide'] eq 0" }checked {/if}>
+                <input name="app_page_vod_detail_pic_hide" type="radio" value="1" title="隐藏" {if
+                       condition="$info['app_page_vod_detail_pic_hide'] eq 1" }checked {/if}>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label getapp-label">我的页面-背景色</label>
+            <div class="layui-input-block">
+                <input name="app_page_mine_bg_hide" type="radio" value="0" title="展示" {if
+                       condition="$info['app_page_mine_bg_hide'] eq 0" }checked {/if}>
+                <input name="app_page_mine_bg_hide" type="radio" value="1" title="隐藏" {if
+                       condition="$info['app_page_mine_bg_hide'] eq 1" }checked {/if}>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">排行榜数据</label>
+            <div class="layui-input-block">
+                <input name="app_page_rank_list_type" type="radio" value="0" title="默认" {if
+                       condition="$info['app_page_rank_list_type'] eq 0" }checked {/if}>
+                <input name="app_page_rank_list_type" type="radio" value="1" title="分类日榜" {if
+                       condition="$info['app_page_rank_list_type'] eq 1" }checked {/if}>
+                <input name="app_page_rank_list_type" type="radio" value="2" title="分类周榜" {if
+                       condition="$info['app_page_rank_list_type'] eq 2" }checked {/if}>
+                <input name="app_page_rank_list_type" type="radio" value="3" title="分类月榜" {if
+                       condition="$info['app_page_rank_list_type'] eq 3" }checked {/if}>
+                <input name="app_page_rank_list_type" type="radio" value="4" title="分类总榜" {if
+                       condition="$info['app_page_rank_list_type'] eq 4" }checked {/if}>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">首页分类指示器</label>
+            <div class="layui-input-block">
+                <input name="app_page_homepage_indicator" type="radio" value="0" title="隐藏" {if
+                       condition="$info['app_page_homepage_indicator'] eq 0" }checked {/if}>
+                <input name="app_page_homepage_indicator" type="radio" value="1" title="显示" {if
+                       condition="$info['app_page_homepage_indicator'] eq 1" }checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">
+            首页分类下方小横条
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label getapp-label">首页分类字体大小</label>
+            <div class="layui-input-inline" >
+                <input  type="number" name="app_page_homepage_type_size" placeholder="填写数字，首页分类字体大小" value="{$info.app_page_homepage_type_size}"
+                        class="layui-input getapp-input">
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">
+            首页分类字体大小，默认14
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label getapp-label">首页Banner切换时长</label>
+            <div class="layui-input-inline" >
+                <input  type="number" name="app_page_homepage_banner_interval" placeholder="填写数字，首页Banner切换时长，单位秒" value="{$info.app_page_homepage_banner_interval}"
+                        class="layui-input getapp-input">
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">
+            首页Banner切换时长，单位秒，默认10秒
+        </div>
+
+        <div class="layui-form-item center">
+            <div class="layui-input-block" style="margin-left: 0;text-align: center;margin-top: 50px">
+                <button type="submit" class="layui-btn" lay-submit id="layuiadmin-app-form-submit"
+                        lay-filter="layuiadmin-app-form-submit">保 存</button>
+
+            </div>
+        </div>
+    </div>
+
+    {include file="../../../application/admin/view/getapp/public/foot" /}
+    <script>
+
+        layui.config({
+            base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'form', 'layer', 'upload'], function () {
+            var $ = layui.$
+                , layer = layui.layer, form = layui.form
+                , upload = layui.upload
+            //监听提交
+            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                var field = data.field; //获取提交的字段
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                $.ajax({
+                    url: "save_app_page_setting_form",
+                    type: 'post',
+                    data: field,
+                    success: function () {
+                        layer.msg("成功");
+                    },
+                    error: function (e) {
+                        layer.msg("失败")
+                    }
+                })
+            });
+
+
+
+
+        });
+
+    </script>
+</body>
+
+</html>

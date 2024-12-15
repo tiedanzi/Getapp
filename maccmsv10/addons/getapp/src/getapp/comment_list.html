@@ -1,0 +1,140 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">评论内容</label>
+            <div class="layui-input-inline">
+              <input type="text" name="comment" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-inline">
+              <select name="status">
+                <option value="">请选择</option>
+                <option value="0">未审核</option>
+                <option value="1">审核通过</option>
+                <option value="2">审核拒绝</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">是否被举报</label>
+            <div class="layui-input-inline">
+              <select name="is_report">
+                <option value="">请选择</option>
+                <option value="1">是</option>
+                <option value="0">否</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-comment-search">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="layui-card-body">
+        <div style="padding-bottom: 10px;">
+          <button class="layui-btn layuiadmin-btn-list" data-type="disbale">拒绝</button>
+          <button class="layui-btn layuiadmin-btn-list" data-type="enable">通过</button>
+        </div>
+        <table id="LAY-comment-list" lay-filter="LAY-comment-list"></table>
+
+      </div>
+    </div>
+  </div>
+  {include file="../../../application/admin/view/getapp/public/foot" /}
+  <script>
+    layui.config({
+      base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+      index: 'lib/index' //主入口模块
+    }).use(['index', 'comment', 'table'], function () {
+      var table = layui.table
+        , form = layui.form;
+      //监听搜索
+      form.on('submit(LAY-comment-search)', function (data) {
+        var field = data.field;
+
+        //执行重载
+        table.reload('LAY-comment-list', {
+          where: field
+        });
+      });
+      var $ = layui.$, active = {
+        disbale: function () {
+          var checkStatus = table.checkStatus('LAY-comment-list')
+            , checkData = checkStatus.data; //得到选中的数据
+
+          if (checkData.length === 0) {
+            return layer.msg('请选择数据');
+          }
+
+          layer.confirm('确定拒绝所选评论吗？', function (index) {
+
+            var reqData = checkData.map(item => item.id).join(",");
+            $.ajax({
+              url: "comment_form_status_disable",
+              type: 'post',
+              data: {
+                ids: reqData
+              },
+              success: function () {
+                layer.msg("成功");
+                table.reload('LAY-comment-list'); //重载表格
+                layer.close(index); //再执行关闭
+              },
+              error: function (e) {
+                layer.msg("失败")
+              }
+            })
+          });
+        },
+        enable: function () {
+          var checkStatus = table.checkStatus('LAY-comment-list')
+            , checkData = checkStatus.data; //得到选中的数据
+
+          if (checkData.length === 0) {
+            return layer.msg('请选择数据');
+          }
+
+          layer.confirm('确定通过所选评论吗？', function (index) {
+
+            var reqData = checkData.map(item => item.id).join(",");
+            $.ajax({
+              url: "comment_form_status_enable",
+              type: 'post',
+              data: {
+                ids: reqData
+              },
+              success: function () {
+                layer.msg("成功");
+                table.reload('LAY-comment-list'); //重载表格
+                layer.close(index); //再执行关闭
+              },
+              error: function (e) {
+                layer.msg("失败")
+              }
+            })
+          });
+        },
+      };
+
+      $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+      });
+
+    });
+  </script>
+</body>
+
+</html>

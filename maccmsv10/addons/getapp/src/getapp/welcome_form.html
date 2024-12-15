@@ -1,0 +1,138 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+    <div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-reg" id="layuiadmin-form-reg"
+        style="padding: 20px 30px 30px 30px; background-color: white">
+
+        <h2 >欢迎使用GetApp插件</h2>
+        <br/>
+        <h2  style="font-size:16px;">1.国内服务器连接GetApp打包服务器不稳定，打包需要多次刷新重试</h2>
+        <br/>
+        <h2  style="font-size:16px;">2.国内服务器建议关闭自动检测更新</h2>
+        <br/>
+        <h2  style="font-size:16px;">3.接口加密Key，为国内服务器用户准备，可以选择在本地或者国外服务器打包，同步key即可</h2>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px" >自动检测更新</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input name="getapp_client_auto_update" type="radio"  value="0" title="关闭" {if
+                       condition="$getapp_client_auto_update eq 0" }checked {/if}>
+                <input name="getapp_client_auto_update" type="radio"  value="1" title="开启" {if
+                       condition="$getapp_client_auto_update eq 1" }checked {/if}>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">接口加密Key </label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="api_secret_key" maxlength="16" lay-verify="required"
+                       value="{$api_secret_key}"
+                       placeholder="接口加密Key(任意16位字符串)" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux getapp-word-aux-danger">
+            <div>APP与服务器接口通信加密KEY，修改后旧版APP无法打开，只能下发更新!</div>
+        </div>
+
+        <div class="layui-form-item center">
+            <div class="layui-input-block" style="margin-left: 0;text-align: center;margin-top: 50px">
+                <button type="submit" class="layui-btn" lay-submit id="layuiadmin-app-form-submit"
+                    lay-filter="layuiadmin-app-form-submit">保 存</button>
+            </div>
+        </div>
+    </div>
+
+    {include file="../../../application/admin/view/getapp/public/foot" /}
+    <script>
+
+
+        layui.config({
+            base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'form', 'layer'], function () {
+            var $ = layui.$
+                , layer = layui.layer, form = layui.form
+            //监听提交
+            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                var field = data.field; //获取提交的字段
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                $.ajax({
+                    url: "save_welcome_form",
+                    type: 'post',
+                    data: field,
+                    success: function (res) {
+                        let re = JSON.parse(res)
+                        layer.msg(re.msg);
+                    },
+                    error: function (e) {
+                        layer.msg("失败")
+                    }
+                })
+            });
+
+
+            $(document).ready(function () {
+                var client_area = '{$getapp_client_auto_update}';
+                if (client_area == '0') {
+                    return;
+                }
+
+                $.ajax({
+                    url: "checkUpdate",
+                    type: 'get',
+                    success: function (res) {
+                        if (res.code == 0) {
+                            let new_version = localStorage.getItem(res.data.new_version)
+                            if (res.data.is_update == 1 && new_version == null) {
+
+                                layer.confirm(res.msg, {
+                                    title: "更新提示",
+                                    icon: 1,
+                                    closeBtn: 1,
+                                    btn: ['更新', '跳过此版本'],
+                                }, function (index, layero) {
+                                    //更新的回调
+                                    layer.msg('正在更新中...', {
+                                        icon: 16,
+                                        shade: 0.2,
+                                        time: false
+                                    });
+
+                                    $.ajax({
+                                        url: "update",
+                                        type: 'get',
+                                        success: function (res) {
+                                            if (res.code == 0) {
+                                                layer.msg(res.msg, {icon: 6});
+                                                setTimeout(function () {
+                                                    location.reload()
+                                                }, 1500)
+                                            }
+                                        },
+                                        error: function (e) {
+                                            layer.msg('请求异常，请重试', {shift: 6});
+                                        }
+
+                                    })
+                                }, function (index) {
+                                    //跳过此版本的回调
+                                    localStorage.setItem(res.data.new_version, "")
+                                });
+                            }
+                        }
+                    },
+                    error: function (e) {
+                        layer.msg('请求异常，请重试', {shift: 6});
+                    }
+
+                })
+            });
+        });
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+<div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-advert-config" id="layuiadmin-form-advert-config"
+     style="padding: 20px 30px 30px 30px; background-color: white">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 150px">广告的选择：</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input name="ad_index" lay-filter="ad_index" type="radio" value="1" title="gromore" checked>
+            <input name="ad_index" lay-filter="ad_index" type="radio" value="2" title="chuanshanjia">
+            <input name="ad_index" lay-filter="ad_index" type="radio" value="3" title="youlianghui">
+        </div>
+    </div>
+
+
+    {foreach name="$config['getapp_param']['ad']['data']" item="ad" key="index" }
+
+    <div name="ad" id="{$ad['sdkId']}" style="display: none">
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <label class="layui-form-label" style="width: 150px">开启状态：</label>
+            <input type="radio" name="adOpen{$ad['sdkId']}" value="0" title="关闭" {if
+                   condition="$ad['adOpen'] eq 0" } checked {/if}>
+            <input type="radio" name="adOpen{$ad['sdkId']}" value="1" title="开启" {if
+                   condition="$ad['adOpen'] eq 1" } checked{/if}>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">广告位ID</label>
+            <div class="layui-input-block" style="width: auto">
+                <input style="width:500px" type="text" name="appId{$ad['sdkId']}" value="{$ad['appId']}"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">广告位appKey</label>
+            <div class="layui-input-block" style="width: auto">
+                <input style="width:500px" type="text" name="appKey{$ad['sdkId']}" value="{$ad['appKey']}"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">播放详情ID(为1不开启)</label>
+            <div class="layui-input-block" style="width: auto">
+                <input style="width:500px" type="text" name="detailId{$ad['sdkId']}" value="{$ad['detailId']}"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">播放视频ID(为1不开启)</label>
+            <div class="layui-input-block" style="width: auto">
+                <input style="width:500px" type="text" name="videoId{$ad['sdkId']}" value="{$ad['videoId']}"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">开屏ID(为1不开启)</label>
+            <div class="layui-input-block" style="width: auto">
+                <input style="width:500px" type="text" name="splashId{$ad['sdkId']}" value="{$ad['splashId']}"
+                       autocomplete="off" class="layui-input">
+
+            </div>
+        </div>
+
+        <div class="layui-form-item center">
+            <div class="layui-input-block" style="margin-left: 0;text-align: center;margin-top: 50px">
+                <button type="submit" class="layui-btn" lay-submit id="layuiadmin-app-form-submit"
+                        lay-filter="layuiadmin-app-form-submit">保 存
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    {/foreach}
+
+</div>
+
+{include file="../../../application/admin/view/getapp/public/foot" /}
+<script>
+
+    layui.config({
+        base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form', 'layer'], function () {
+        var $ = layui.$
+            , layer = layui.layer, form = layui.form
+        //监听提交
+        form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            var field = data.field; //获取提交的字段
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                url: "save_advert_third_form",
+                type: 'post',
+                data: field,
+                success: function () {
+                    layer.msg("成功");
+                },
+                error: function (e) {
+                    layer.msg("失败")
+                }
+            })
+        });
+
+
+        form.on('radio(ad_index)', function (data) {
+            $("div[name='ad']").each((key, item) => {
+                if (data.value == item.id) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+
+            })
+
+        });
+
+
+    });
+</script>
+</body>
+
+</html>

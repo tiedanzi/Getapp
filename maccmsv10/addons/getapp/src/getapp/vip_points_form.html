@@ -1,0 +1,114 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+    <div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-reg" id="layuiadmin-form-reg"
+        style="padding: 20px 30px 30px 30px; background-color: white">
+
+        <div class="getapp-type-box">
+            <p class="getapp-theme-color" style="font-size:16px">以下参数为APP单独参数，与Web站无关！</p>
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">注册赠送积分</label>
+                <div class="layui-input-inline" >
+                    <input  type="number" name="user_reg_points" placeholder="注册赠送积分" value="{$info.user_reg_points}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">用户注册成功后默认赠送积分</div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">注册赠送限制</label>
+                <div class="layui-input-inline" >
+                    <input  type="number" name="user_reg_num" placeholder="每IP每日注册，赠送限制" value="{$info.user_reg_num}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">每个IP每日注册，最多可赠送的积分次数</div>
+
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">邀请安装奖励积分</label>
+                <div class="layui-input-inline" >
+                    <input  type="number" name="user_invite_install_points" placeholder="邀请用户安装奖励积分" value="{$info.user_invite_install_points}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">成功邀请用户安装后，赚取奖励积分</div>
+
+
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">邀请安装赠送限制</label>
+                <div class="layui-input-inline" >
+                    <input  type="number" name="user_invite_install_num" placeholder="每IP每日邀请用户安装赠送限制" value="{$info.user_invite_install_num}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">每个IP每日邀请用户安装，最多可赠送的积分次数</div>
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">邀请注册奖励积分</label>
+                <div class="layui-input-inline" >
+                    <input  type="number" name="user_invite_reg_points" placeholder="邀请用户注册奖励积分" value="{$info.user_invite_reg_points}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">成功邀请用户注册后，赚取奖励积分</div>
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label getapp-label">邀请注册赠送限制</label>
+                <div class="layui-input-inline" >
+                    <input  type="number" name="user_invite_reg_num" placeholder="每IP每日邀请用户注册赠送限制" value="{$info.user_invite_reg_num}"
+                            class="layui-input getapp-input">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux getapp-word-aux" style="">每个IP每日邀请用户注册，最多可赠送的积分次数</div>
+
+        </div>
+
+
+        <div class="layui-form-item center">
+            <div class="layui-input-block" style="margin-left: 0;text-align: center;margin-top: 50px">
+                <button type="submit" class="layui-btn" lay-submit id="layuiadmin-app-form-submit"
+                        lay-filter="layuiadmin-app-form-submit">保 存</button>
+
+            </div>
+        </div>
+    </div>
+
+    {include file="../../../application/admin/view/getapp/public/foot" /}
+    <script>
+
+        layui.config({
+            base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'form', 'layer'], function () {
+            var $ = layui.$
+                , layer = layui.layer, form = layui.form
+            //监听提交
+            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                var field = data.field; //获取提交的字段
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                $.ajax({
+                    url: "save_vip_points_form",
+                    type: 'post',
+                    data: field,
+                    success: function () {
+                        layer.msg("成功");
+                    },
+                    error: function (e) {
+                        layer.msg("失败")
+                    }
+                })
+            });
+
+        });
+
+    </script>
+</body>
+
+</html>

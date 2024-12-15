@@ -1,0 +1,192 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body class="layui-layout-body">
+
+    <div id="LAY_app">
+        <div class="layui-layout layui-layout-admin">
+            <div class="layui-header">
+                <!-- 头部区域 -->
+                <ul class="layui-nav layui-layout-left">
+                    <li class="layui-nav-item layadmin-flexible" lay-unselect>
+                        <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                            <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="check_update">
+                            检测更新
+                        </a>
+                    </li>
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="theme">
+                            <i class="layui-icon layui-icon-theme"></i>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <!-- 侧边菜单 -->
+            <div class="layui-side layui-side-menu">
+                <div class="layui-side-scroll">
+                    <div class="layui-logo">
+                        <span>Getapp后台管理</span>
+                    </div>
+
+                    <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
+                        lay-filter="layadmin-system-side-menu">
+                        <li data-name="app_build" class="layui-nav-item layui-this">
+                            <a href="javascript:;" lay-href="getapp/view_welcome_form" lay-tips="欢迎使用"
+                               lay-direction="2">
+                                <i class="layui-icon layui-icon-app"></i>
+                                <cite>欢迎使用</cite>
+                            </a>
+                        </li>
+
+                        <li data-name="app_build" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_app_build_form" lay-tips="APP打包"
+                               lay-direction="2">
+                                <i class="layui-icon layui-icon-app"></i>
+                                <cite>APP打包</cite>
+                            </a>
+                        </li>
+                        <li data-name="version1" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_version" lay-tips="版本管理" lay-direction="2">
+                                <i class="layui-icon layui-icon-release"></i>
+                                <cite>版本管理</cite>
+                            </a>
+                        </li>
+
+                        <li data-name="version1" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_app_page_setting" lay-tips="页面设置" lay-direction="2">
+                                <i class="layui-icon layui-icon-release"></i>
+                                <cite>页面设置</cite>
+                            </a>
+                        </li>
+
+                        <li data-name="reg_form" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_system_form" lay-tips="注册配置" lay-direction="2">
+                                <i class="layui-icon layui-icon-util"></i>
+                                <cite>系统配置</cite>
+                            </a>
+                        </li>
+
+                        <li data-name="player_parse" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_player_parse" lay-tips="解析接口管理"
+                                lay-direction="3">
+                                <i class="layui-icon layui-icon-util"></i>
+                                <cite>解析管理</cite>
+                            </a>
+                        </li>
+                        <li data-name="ad_form" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_advert_config_form" lay-tips="广告基础配置"
+                               lay-direction="2">
+                                <i class="layui-icon layui-icon-set-fill"></i>
+                                <cite>广告配置</cite>
+                            </a>
+                        </li>
+                        <li data-name="banner_form" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_advert_list_banner" lay-tips="自定义广告"
+                               lay-direction="2">
+                                <i class="layui-icon layui-icon-picture"></i>
+                                <cite>自定义广告</cite>
+                            </a>
+                        </li>
+                        <li data-name="notice_list" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_notice_list" lay-tips="公告管理"
+                                lay-direction="2">
+                                <i class="layui-icon layui-icon-notice"></i>
+                                <cite>公告管理</cite>
+                            </a>
+                        </li>
+
+                        <li data-name="app_build" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_danmu_list" lay-tips="弹幕审核"
+                               lay-direction="2">
+                                <i class="layui-icon layui-icon-layer"></i>
+                                <cite>弹幕审核</cite>
+                            </a>
+                        </li>
+
+                        <li data-name="app_build" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_piece_list" lay-tips="求片找片"
+                               lay-direction="2">
+                                <i class="layui-icon layui-icon-log"></i>
+                                <cite>求片找片</cite>
+                            </a>
+                        </li>
+                        <li data-name="app_build" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_feedback_list" lay-tips="意见反馈"
+                               lay-direction="2">
+                                <i class="layui-icon layui-icon-dialogue"></i>
+                                <cite>意见反馈</cite>
+                            </a>
+                        </li>
+
+                        <li data-name="app_build" class="layui-nav-item">
+                            <a href="javascript:;" lay-href="getapp/view_update_list" lay-tips="催更列表"
+                               lay-direction="2">
+                                <i class="layui-icon layui-icon-list"></i>
+                                <cite>催更列表</cite>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 页面标签 -->
+            <div class="layadmin-pagetabs" id="LAY_app_tabs">
+                <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+                <div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+                <div class="layui-icon layadmin-tabs-control layui-icon-down">
+                    <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+                        <li class="layui-nav-item" lay-unselect>
+                            <a href="javascript:;"></a>
+                            <dl class="layui-nav-child layui-anim-fadein">
+                                <dd layadmin-event="closeThisTabs"><a href="javascript:;">关闭当前标签页</a></dd>
+                                <dd layadmin-event="closeOtherTabs"><a href="javascript:;">关闭其它标签页</a></dd>
+                                <dd layadmin-event="closeAllTabs"><a href="javascript:;">关闭全部标签页</a></dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+                <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+                    <ul class="layui-tab-title" id="LAY_app_tabsheader">
+                        <li lay-id="getapp/view_welcome_form" lay-attr="getapp/view_welcome_form" class="layui-this">
+                            <span>欢迎使用</span><i class="layui-icon"></i></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- 主体内容 -->
+            <div class="layui-body" id="LAY_app_body">
+                <div class="layadmin-tabsbody-item layui-show">
+                    <iframe src="getapp/view_welcome_form" frameborder="0" class="layadmin-iframe"></iframe>
+                </div>
+                <div class="layui-footer layui-text" style="left: 220px;">
+                    copyright © 2023 <a href="http://www.getapp.tv/" target="_blank">Getapp</a> all rights reserved. <a href="https://t.me/getapptv" target="_blank">官方TG</a>   <span class="pull-right">Version v{$version}</span>
+                </div>
+            </div>
+
+            <!-- 辅助元素，一般用于移动设备下遮罩 -->
+            <div class="layadmin-body-shade" layadmin-event="shade"></div>
+        </div>
+    </div>
+
+    {include file="../../../application/admin/view/getapp/public/foot" /}
+
+    <script>
+        layui.config({
+            base: '/addons/getapp/layuiadmin/',//静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use('index');
+    </script>
+</body>
+
+</html>

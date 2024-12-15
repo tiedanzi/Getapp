@@ -1,0 +1,163 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+    <div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-share" id="layuiadmin-form-share"
+        style="padding: 20px 30px 30px 30px; background-color: white">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">分享域名</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="share_domain" value="{$info.share_domain}"
+                    placeholder="分享域名" autocomplete="off" class="layui-input">
+                <div style="margin-left: 16px;">
+                    <span style="color: red;">分享使用的域名，需将域名解析到当前服务器,未设置使用当前域名</span><br>
+                    <span>示例：http://share.xiaoguikeji.cn</span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">邀请海报</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input type="text" style="width:500px" name="file" placeholder="设置分享APP时展示的海报"
+                    value="{$info.app_share_img}" class="layui-input upload-input">
+            </div>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <button type="button" class="layui-btn layui-upload" id="upload2">上传图片
+                </button>
+                <div style="margin-left: 16px;">
+                    <span style="color: red;">建议尺寸：750*1334</span><br>
+                    <span>海报下半部分将会被app自动生成的信息覆盖，即802像素以下会被覆盖。</span>
+                </div>
+            </div>
+            <div class="showpic" style="display:none;"><img class="showpic_img" width="120" height="160"></div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">APP下载地址</label>
+            <div class="layui-input-block" style="width: auto">
+                <input style="width:500px" type="text" name="dowload_url" value="{$info.dowload_url}"
+                    placeholder="app的下载页面地址" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">视频分享页模板地址</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="video_url_template" value="{$info.video_url_template}"
+                    placeholder="视频分享页模板地址" autocomplete="off" class="layui-input">
+                <div style="margin-left: 16px;">
+                    <span style="color: red;">视频分享链接时替换视频id使用，#{vid}为视频id的占位符</span><br>
+                    <span>示例：http://yingshi.preview.xiaoguikeji.cn/index.php/vod/detail/id/#{vid}.html</span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">视频页分享跳转模式</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input name="video_share_mode" type="radio" id="video_share_mode-1" value="1" title="下载页" {if
+                    condition="$info['video_share_mode'] neq 2" }checked {/if}>
+                <input name="video_share_mode" type="radio" id="video_share_mode-2" value="2" title="视频详情页" {if
+                    condition="$info['video_share_mode'] eq 2" }checked {/if}>
+                <div style="margin-left: 16px;">
+                    <span style="color: red;">此处用于设置视频详情页的分享后其他用户打开跳转的页面。</span><br>
+                    <span>当模式为下载页时，用户打开跳转至下载页；<br>当模式为视频详情页时，用户打开跳转至网站的视频详情页面。</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item center">
+            <div class="layui-input-block" style="margin-left: 0;text-align: center;margin-top: 50px">
+                <button type="submit" class="layui-btn" lay-submit id="layuiadmin-app-form-submit"
+                    lay-filter="layuiadmin-app-form-submit">保 存</button>
+            </div>
+        </div>
+    </div>
+
+    {include file="../../../application/admin/view/getapp/public/foot" /}
+    <script>
+
+        layui.config({
+            base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'form', 'layer', 'upload'], function () {
+            var $ = layui.$
+                , layer = layui.layer, form = layui.form
+                , upload = layui.upload;
+            //监听提交
+            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                var field = data.field; //获取提交的字段
+                var file = $(".upload-input").val()
+                field.app_share_img = file;
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                $.ajax({
+                    url: "save_share_form",
+                    type: 'post',
+                    data: field,
+                    success: function () {
+                        layer.msg("成功");
+                    },
+                    error: function (e) {
+                        layer.msg("失败")
+                    }
+                })
+            });
+
+            upload.render({
+                elem: '.layui-upload'
+                , url: "{:url('upload')}?flag=app"
+                , method: 'post'
+                , before: function (input) {
+                    layer.msg('文件上传中...', { time: 3000000 });
+                }, done: function (res, index, upload) {
+                    var obj = this.item;
+                    if (res.code == 0) {
+                        layer.msg(res.msg);
+                        return false;
+                    }
+                    layer.closeAll();
+                    var input = $(obj).parent().parent().find('.upload-input');
+                    if ($(obj).attr('lay-type') == 'image') {
+                        input.siblings('img').attr('src', res.data.file).show();
+                    }
+                    input.val(res.data.file);
+                    console.info(res);
+
+                    if (res.data.thumb_class != '') {
+                        $('.' + res.data.thumb_class).val(res.data.thumb[0].file);
+                    }
+                }
+            });
+
+            $('.upload-input').hover(function (e) {
+                var e = window.event || e;
+                var imgsrc = $(this).val();
+                if (imgsrc.trim() == "") {
+                    return;
+                }
+                var left = e.clientX + document.body.scrollLeft;
+                var top = e.clientY + document.body.scrollTop;
+                $(".showpic").css({ left: left, top: top, display: "" });
+                if (imgsrc.indexOf('://') < 0) {
+                    imgsrc = ROOT_PATH + '/' + imgsrc;
+                } else {
+                    imgsrc = imgsrc.replace('mac:', 'http:');
+                }
+                $(".showpic_img").attr("src", imgsrc);
+            }, function (e) {
+                $(".showpic").css("display", "none");
+            });
+
+            //日期范围
+            laydate.render({
+                elem: '#end_time',
+                type: 'datetime'
+            });
+            laydate.render({
+                elem: '#start_time',
+                type: 'datetime'
+            });
+
+        });
+    </script>
+</body>
+
+</html>

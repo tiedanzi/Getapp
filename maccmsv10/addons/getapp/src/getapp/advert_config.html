@@ -1,0 +1,155 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+<div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-advert-config" id="layuiadmin-form-advert-config"
+     style="padding: 20px 30px 30px 30px; background-color: white">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px" >开屏广告</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input name="ad_splash_status" type="radio" id="ad_splash_status-0" value="0" title="关闭" {if
+                   condition="$info['ad_splash_status'] eq 0" }checked {/if}>
+            <input name="ad_splash_status" type="radio" id="ad_splash_status-1" value="1" title="开启" {if
+                   condition="$info['ad_splash_status'] eq 1" }checked {/if}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px" >首页插屏广告</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input name="ad_home_page_insert_status" type="radio" id="ad_home_page_insert_status-0" value="0" title="关闭" {if
+                   condition="$info['ad_home_page_insert_status'] eq 0" }checked {/if}>
+            <input name="ad_home_page_insert_status" type="radio" id="ad_home_page_insert_status-1" value="1" title="开启" {if
+                   condition="$info['ad_home_page_insert_status'] eq 1" }checked {/if}>
+        </div>
+    </div>
+
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px" >我的页面banner广告</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input name="ad_mine_page_banner_status" type="radio" id="ad_mine_page_banner_status-0" value="0" title="关闭" {if
+                   condition="$info['ad_mine_page_banner_status'] eq 0" }checked {/if}>
+            <input name="ad_mine_page_banner_status" type="radio" id="ad_mine_page_banner_status-1" value="1" title="开启" {if
+                   condition="$info['ad_mine_page_banner_status'] eq 1" }checked {/if}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px" >搜索页banner广告</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input name="ad_search_page_banner_status" type="radio" id="ad_search_page_banner_status-0" value="0" title="关闭" {if
+                   condition="$info['ad_search_page_banner_status'] eq 0" }checked {/if}>
+            <input name="ad_search_page_banner_status" type="radio" id="ad_search_page_banner_status-1" value="1" title="开启" {if
+                   condition="$info['ad_search_page_banner_status'] eq 1" }checked {/if}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px" >播放页banner广告</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input name="ad_detail_page_banner_status" type="radio" id="ad_detail_page_banner_status-0" value="0" title="关闭" {if
+                   condition="$info['ad_detail_page_banner_status'] eq 0" }checked {/if}>
+            <input name="ad_detail_page_banner_status" type="radio" id="ad_detail_page_banner_status-1" value="1" title="开启" {if
+                   condition="$info['ad_detail_page_banner_status'] eq 1" }checked {/if}>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px">热启动插屏间隔时长</label>
+        <div class="layui-input-inline">
+            <input type="number" name="ad_back_insert_interval_time" value="{$info['ad_back_insert_interval_time']}" lay-verify="ad_back_insert_interval_time" placeholder="间隔时长" autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">后台返回app展示插屏的间隔(秒)，-1为不展示</div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px" >播放页激励视频间隔</label>
+        <div class="layui-input-inline">
+            <input type="number" name="ad_detail_page_reward_interval_time" value="{$info['ad_detail_page_reward_interval_time']}" lay-verify="ad_detail_page_reward_interval_time" placeholder="播放时长" autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">播放页激励视频观看间隔(秒)，-1为不展示</div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px" >播放页插屏间隔次数</label>
+        <div class="layui-input-inline">
+            <input type="number" name="ad_detail_page_insert_times" value="{$system_config['ad_detail_page_insert_times']}" lay-verify="ad_detail_page_insert_times" placeholder="播放页插屏间隔次数" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">每N次打开播放页需要播放广告，填N的值，0为关闭；弹激励视频时不会弹插屏</div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px" >下载激励视频间隔</label>
+        <div class="layui-input-inline">
+            <input type="number" name="ad_detail_page_download_reward_interval_time" value="{$system_config['ad_detail_page_download_reward_interval_time']}" lay-verify="ad_detail_page_download_reward_interval_time" placeholder="下载激励视频间隔" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">下载视频时，需要观看的激励视频观看间隔(秒)，-1为不展示</div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px" >催更激励视频间隔</label>
+        <div class="layui-input-inline">
+            <input type="number" name="ad_detail_page_cuigeng_reward_interval_time" value="{$system_config['ad_detail_page_cuigeng_reward_interval_time']}" lay-verify="ad_detail_page_cuigeng_reward_interval_time" placeholder="催更激励视频间隔" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">催更时，需要观看的激励视频观看间隔(秒)，-1为不展示</div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px" >签到观看激励视频积分</label>
+        <div class="layui-input-inline">
+            <input type="number" name="ad_watch_reward_points" value="{$system_config['ad_watch_reward_points']}" lay-verify="ad_watch_reward_points" placeholder="签到观看激励视频积分" autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">签到观看激励视频成功后可领取积分，0为关闭</div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 200px" >每天签到观看激励视频次数</label>
+        <div class="layui-input-inline">
+            <input type="number" name="ad_watch_reward_times" value="{$system_config['ad_watch_reward_times']}" lay-verify="ad_watch_reward_times" placeholder="每天签到可观看激励视频领取积分的次数" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">每天签到可观看激励视频领取积分的次数，0为关闭</div>
+
+    <div class="layui-form-item center">
+        <div class="layui-input-block" style="margin-left: 0;text-align: center;margin-top: 50px">
+            <button type="submit" class="layui-btn" lay-submit id="layuiadmin-app-form-submit"
+                    lay-filter="layuiadmin-app-form-submit">保 存</button>
+        </div>
+    </div>
+</div>
+
+{include file="../../../application/admin/view/getapp/public/foot" /}
+<script>
+
+    layui.config({
+        base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form', 'layer'], function () {
+        var $ = layui.$
+            , layer = layui.layer, form = layui.form
+        //监听提交
+        form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            var field = data.field; //获取提交的字段
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                url: "save_advert_config_form",
+                type: 'post',
+                data: field,
+                success: function () {
+                    layer.msg("成功");
+                },
+                error: function (e) {
+                    layer.msg("失败")
+                }
+            })
+        });
+
+    });
+</script>
+</body>
+
+</html>

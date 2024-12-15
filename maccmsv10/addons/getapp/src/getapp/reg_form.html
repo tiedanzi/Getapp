@@ -1,0 +1,79 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+    <div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-reg" id="layuiadmin-form-reg"
+        style="padding: 20px 30px 30px 30px; background-color: white">
+        <div class="layui-form-item">
+            <label class="layui-form-label" >注册开关：</label>
+            <div class="layui-input-block">
+                <input name="reg_status" type="radio" id="reg_status-0" value="0" title="关闭" {if
+                    condition="$info['reg_status'] eq 0" }checked {/if}>
+                <input name="reg_status" type="radio" id="reg_status-1" value="1" title="开启" {if
+                    condition="$info['reg_status'] eq 1" }checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" >注册方式：</label>
+            <div class="layui-input-block">
+                <input name="reg_type" type="radio" id="reg_type_1" value="1" title="邮箱" {if
+                    condition="$info['reg_type'] eq 1" }checked {/if}>
+                <input name="reg_type" type="radio" id="reg_type_2" value="2" title="用户名" {if
+                    condition="$info['reg_type'] eq 2" }checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" >送余额：</label>
+            <div class="layui-input-inline w150">
+                <input type="number" name="reg_points" value="{$info.reg_points}"  placeholder="注册送多少元余额" autocomplete="off"
+                    class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">元</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" >送会员：</label>
+            <div class="layui-input-inline w150">
+                <input type="number" name="reg_vip_day" value="{$info.reg_vip_day}"  placeholder="注册送多少天会员" autocomplete="off"
+                    class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">天</div>
+        </div>
+        <div class="layui-form-item center">
+            <div class="layui-input-block" style="margin-left: 0;text-align: center;margin-top: 50px">
+                <button type="submit" class="layui-btn" lay-submit id="layuiadmin-app-form-submit"
+                    lay-filter="layuiadmin-app-form-submit">保 存</button>
+            </div>
+        </div>
+    </div>
+
+    {include file="../../../application/admin/view/getapp/public/foot" /}
+    <script>
+
+        layui.config({
+            base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'form', 'layer'], function () {
+            var $ = layui.$
+                , layer = layui.layer, form = layui.form
+            //监听提交
+            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                var field = data.field; //获取提交的字段
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                $.ajax({
+                    url: "save_reg_form",
+                    type: 'post',
+                    data: field,
+                    success: function () {
+                        layer.msg("成功");
+                    },
+                    error: function (e) {
+                        layer.msg("失败")
+                    }
+                })
+            });
+
+        });
+    </script>
+</body>
+
+</html>

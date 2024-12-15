@@ -1,0 +1,32 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+
+  <div class="layui-fluid">
+
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <table id="LAY-player-parse-list" lay-filter="LAY-player-parse-list"></table>
+        <script type="text/html" id="table-player-parse-list">
+          <a class="layui-btn layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition"></i>新增</a>
+        </script>
+      </div>
+    </div>
+  </div>
+  {include file="../../../application/admin/view/getapp/public/foot" /}
+  <script>
+    layui.config({
+      base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+      index: 'lib/index' //主入口模块
+    }).use(['index', 'playerParse', 'table'], function () {
+      var table = layui.table
+        , form = layui.form;
+    });
+  </script>
+<style>
+  .layui-table-cell{overflow:initial; height:auto; white-space:normal}
+</style>
+</body>
+
+</html>

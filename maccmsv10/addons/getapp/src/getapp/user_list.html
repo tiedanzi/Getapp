@@ -1,0 +1,67 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+              <input type="text" name="user_name" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-inline">
+              <select name="status">
+                <option value="">请选择</option>
+                <option value="1">启用</option>
+                <option value="0">禁用</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-user-search">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="layui-card-body">
+
+        <table id="LAY-user-list" lay-filter="LAY-user-list"></table>
+
+      </div>
+    </div>
+  </div>
+  {include file="../../../application/admin/view/getapp/public/foot" /}
+  <script>
+    layui.config({
+      base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+      index: 'lib/index' //主入口模块
+    }).use(['index', 'user', 'table'], function () {
+      var table = layui.table
+        , form = layui.form;
+      //监听搜索
+      form.on('submit(LAY-user-search)', function (data) {
+        var field = data.field;
+
+        //执行重载
+        table.reload('LAY-user-list', {
+          where: field
+        });
+      });
+
+      $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+      });
+
+    });
+  </script>
+</body>
+
+</html>

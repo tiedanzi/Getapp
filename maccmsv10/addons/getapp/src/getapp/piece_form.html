@@ -1,0 +1,97 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+<style type="text/css">
+    .layui-form-item .layui-input-inline, .layui-textarea{
+        float: left;
+        width: 300px;
+        margin-right: 10px;
+    }
+</style>
+<body>
+<div class="layui-form  layui-form-pane" lay-filter="layuiadmin-form-version" id="layuiadmin-form-version"
+     style="padding: 20px 30px 30px 30px;">
+    <input type="text" name="id" style="display: none;" value="{$info.id}">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <div class="layui-form-mid layui-word-aux" style="margin-left: 10px">{$info.user_name}</div>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">求片片名</label>
+        <div class="layui-input-inline">
+            <div class="layui-form-mid layui-word-aux" style="margin-left: 10px">{$info.name}</div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">求片备注</label>
+        <div class="layui-input-inline">
+            <div class="layui-form-mid layui-word-aux" style="margin-left: 10px">{$info.remark}</div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">回复内容</label>
+        <div class="layui-input-block">
+            <textarea name="reply_content" lay-verify="required" placeholder="请输入" class="layui-textarea">{$info.reply_content}</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item"  id="req_content_container">
+        <label class="layui-form-label">跳转参数</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input type="text" name="reply_link" style="width: 300px"  placeholder="选填，填写视频id或者链接" value="{$info.reply_link}"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux" >选填，填写视频id打开视频详情；填写链接打开浏览器网页</div>
+
+    <div class="layui-form-item layui-hide">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit"
+                   value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+
+{include file="../../../application/admin/view/getapp/public/foot" /}
+<script>
+    function isSingleDigit(number) {
+        return number >= 0 && number <= 9;
+    }
+
+    layui.config({
+        base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form'], function () {
+        var $ = layui.$
+            , form = layui.form;
+        //监听提交
+        form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            var field = data.field; //获取提交的字段
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                url: "piece_form_save",
+                type: 'post',
+                data:field,
+                success: function () {
+                    layer.msg("成功");
+                    parent.layui.table.reload('LAY-piece-list'); //重载表格
+                    parent.layer.close(index); //再执行关闭
+                },
+                error: function (e) {
+                    layer.msg("失败")
+                }
+            })
+
+        });
+    });
+</script>
+</body>
+
+</html>

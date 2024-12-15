@@ -1,0 +1,169 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+{include file="../../../application/admin/view/public/editor" flag="notice_editor"/}
+
+<body>
+    <div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-notice" id="layuiadmin-form-notice"
+        style="padding: 20px 30px 30px 30px;">
+        <input type="text" name="id" style="display: none;" value="{$info.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">置顶且弹窗</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input name="is_top" type="radio" id="is_top-0" value="0" title="否" {if
+                    condition="$info['is_top'] neq 1" }checked {/if}>
+                <input name="is_top" type="radio" id="is_top-1" value="1" title="是" {if
+                    condition="$info['is_top'] eq 1" }checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">置顶第一条为公告，并且首页弹窗</div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">强制提醒</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input name="is_force" type="radio" value="0" title="否" {if
+                       condition="$info['is_force'] neq 1" }checked {/if}>
+                <input name="is_force" type="radio" value="1" title="是" {if
+                       condition="$info['is_force'] eq 1" }checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">选择是，用户不能忽略，每次都弹窗提醒</div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input name="status" type="radio" id="status-0" value="0" title="禁用" {if
+                    condition="$info['status'] neq 1" }checked {/if}>
+                <input name="status" type="radio" id="status-1" value="1" title="启用" {if
+                    condition="$info['status'] eq 1" }checked {/if}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">标题</label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" value="{$info.title}" lay-verify="name" maxlength="40"  placeholder="请输入标题"
+                    autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">最多40字</div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-inline">
+                <input type="number" name="sort" value="{$info.sort}" lay-verify="sort" placeholder="请输入排序"
+                    autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">简介</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <textarea name="intro" style="width:500px" lay-verify="required" maxlength="80" placeholder="请输入简介" autocomplete="off"
+                    class="layui-textarea">{$info.intro}</textarea>
+            </div>
+
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">列表页展示</div>
+
+        <div class="layui-form-item">
+            <script>
+                var editor;
+            </script>
+            <label class="layui-form-label">内容</label>
+            <div class="p10 m20"></div>
+            <div class="layui-input-block"><textarea id="notice_content" name="content"
+                    type="text/plain" style="width:99%;height:250px">{$info.content|mac_url_content_img}</textarea>
+            </div>
+            <script>
+                editor = editor_getEditor('notice_content');
+            </script>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">内容里填写超链接，可以在浏览器打开</div>
+        <div class="layui-form-item layui-hide">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit"
+                    value="确认" class="layui-btn">
+            </div>
+        </div>
+
+    </div>
+
+    {include file="../../../application/admin/view/getapp/public/foot" /}
+    <script>
+        layui.config({
+            base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'form', 'upload'], function () {
+            var $ = layui.$
+                , form = layui.form
+                , laydate = layui.laydate
+                , upload = layui.upload;
+            //监听提交
+            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                var field = data.field; //获取提交的字段
+                field.content = editor_getContent(editor);
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                $.ajax({
+                    url: "notice_form_save",
+                    type: 'post',
+                    data: field,
+                    success: function () {
+                        layer.msg("成功");
+                        parent.layui.table.reload('LAY-notice-list'); //重载表格
+                        parent.layer.close(index); //再执行关闭
+                    },
+                    error: function (e) {
+                        layer.msg("失败")
+                    }
+                })
+
+            });
+
+            upload.render({
+                elem: '.layui-upload'
+                , url: "{:url('upload')}?flag=app"
+                , method: 'post'
+                , before: function (input) {
+                    layer.msg('文件上传中...', { time: 3000000 });
+                }, done: function (res, index, upload) {
+                    var obj = this.item;
+                    if (res.code == 0) {
+                        layer.msg(res.msg);
+                        return false;
+                    }
+                    layer.closeAll();
+                    var input = $(obj).parent().parent().find('.upload-input');
+                    if ($(obj).attr('lay-type') == 'image') {
+                        input.siblings('img').attr('src', res.data.file).show();
+                    }
+                    input.val(res.data.file);
+                    console.info(res);
+
+                    if (res.data.thumb_class != '') {
+                        $('.' + res.data.thumb_class).val(res.data.thumb[0].file);
+                    }
+                }
+            });
+
+            $('.upload-input').hover(function (e) {
+                var e = window.event || e;
+                var imgsrc = $(this).val();
+                if (imgsrc.trim() == "") {
+                    return;
+                }
+                var left = e.clientX + document.body.scrollLeft;
+                var top = e.clientY + document.body.scrollTop;
+                $(".showpic").css({ left: left, top: top, display: "" });
+                if (imgsrc.indexOf('://') < 0) {
+                    imgsrc = ROOT_PATH + '/' + imgsrc;
+                } else {
+                    imgsrc = imgsrc.replace('mac:', 'http:');
+                }
+                $(".showpic_img").attr("src", imgsrc);
+            }, function (e) {
+                $(".showpic").css("display", "none");
+            });
+        });
+    </script>
+</body>
+
+</html>

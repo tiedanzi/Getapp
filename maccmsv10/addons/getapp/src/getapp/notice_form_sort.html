@@ -1,0 +1,56 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+    <div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-notice"
+        id="layuiadmin-form-notice" style="padding: 20px 30px 30px 30px;">
+        <input type="text" name="id" style="display: none;" value="{$info.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-inline">
+                <input type="number" name="sort" value="{$info.sort}" placeholder="请输入顺序" autocomplete="off"
+                    class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-hide">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit"
+                    value="确认" class="layui-btn">
+            </div>
+        </div>
+    </div>
+
+    {include file="../../../application/admin/view/getapp/public/foot" /}
+    <script>
+        layui.config({
+            base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'form', ], function () {
+            var $ = layui.$
+                , form = layui.form;
+            //监听提交
+            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                var field = data.field; //获取提交的字段
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                $.ajax({
+                    url: "notice_form_save_sort",
+                    type: 'post',
+                    data: field,
+                    success: function () {
+                        layer.msg("成功");
+                        parent.layui.table.reload('LAY-notice-list'); //重载表格
+                        parent.layer.close(index); //再执行关闭
+                    },
+                    error: function (e) {
+                        layer.msg("失败")
+                    }
+                })
+
+            });
+        });
+    </script>
+</body>
+
+</html>

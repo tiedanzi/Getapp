@@ -1,0 +1,210 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+{include file="../../../application/admin/view/public/editor" flag="advert_banner_editor"/}
+
+<body>
+    <div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-advert-banner"
+        id="layuiadmin-form-advert-banner" style="padding: 20px 30px 30px 30px;">
+        <input type="text" name="id" style="display: none;" value="{$info.id}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input name="status" type="radio" id="status-1" value="1" title="启用" {if
+                    condition="$info['status'] eq 1" }checked {/if}>
+                <input name="status" type="radio" id="status-0" value="0" title="禁用" {if
+                    condition="$info['status'] eq 0" }checked {/if}>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">UI模式</label>
+            <div class="layui-input-block">
+                <input name="ui_mode" type="radio"  value="0" title="'不区分（全部模式）" {if
+                       condition="$info['ui_mode'] eq 0" }checked {/if}>
+                <input name="ui_mode" type="radio"  value="1" title="正常模式" {if
+                       condition="$info['ui_mode'] eq 1" }checked {/if}>
+                <input name="ui_mode" type="radio"  value="2" title="深色模式（暗黑模式）" {if
+                       condition="$info['ui_mode'] eq 2" }checked {/if}>
+
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">位置</label>
+            <div class="layui-input-block">
+                <input name="position" type="radio"  value="0" title="首页轮播下方广告" {if
+                       condition="$info['position'] eq 0" }checked {/if}>
+                <input name="position" type="radio"  value="1" title="首页轮播下方图标" {if
+                       condition="$info['position'] eq 1" }checked {/if}>
+                <input name="position" type="radio"  value="2" title="首页轮播" {if
+                       condition="$info['position'] eq 2" }checked {/if}>
+                <input name="position" type="radio"  value="3" title="播放页选集下方" {if
+                       condition="$info['position'] eq 3" }checked {/if}>
+                <input name="position" type="radio"  value="4" title="播放页详情顶部" {if
+                       condition="$info['position'] eq 4" }checked {/if}>
+                <input name="position" type="radio"  value="5" title="播放页评论顶部" {if
+                       condition="$info['position'] eq 5" }checked {/if}>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" style="width:500px" value="{$info.name}" lay-verify="required" placeholder="请输入广告名称"
+                    autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">展示在轮播图左下角</div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">封面图片</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input type="text" style="width:500px" name="content" lay-verify="content" placeholder="广告展示的图片"
+                    value="{$info.content}" class="layui-input upload-input">
+            </div>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <button type="button" class="layui-btn layui-upload" id="upload2">上传图片
+                </button>
+            </div>
+            <div class="showpic" style="display:none;"><img class="showpic_img" width="120" height="160"></div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">可直接填写图片链接</div>
+
+
+        <div class="layui-form-item"  id="req_content_container">
+            <label class="layui-form-label">跳转链接</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input type="text" name="req_content" style="width:500px" placeholder="" value="{$info.req_content}"
+                    class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">可填写视频id或者网站链接</div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">开始时间</label>
+            <div class="layui-input-inline rowTime">
+                <input type="text" class="layui-input" name="start_time" style="width:500px" id="start_time"
+                    value="{$info.start_time|date='Y-m-d H:i:s',###}" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label">结束时间</label>
+            <div class="layui-input-inline rowTime">
+                <input type="text" class="layui-input" name="end_time" id="end_time" style="width:500px"
+                    value="{$info.end_time|date='Y-m-d H:i:s',###}" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-inline">
+                <input type="number" name="sort" style="width:500px" value="{$info.sort}" placeholder="请输入顺序" autocomplete="off"
+                    class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-mid layui-word-aux getapp-word-aux">广告展示顺序，从小到大排列</div>
+
+
+        <div class="layui-form-item layui-hide">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit"
+                    value="确认" class="layui-btn">
+            </div>
+        </div>
+    </div>
+
+    {include file="../../../application/admin/view/getapp/public/foot" /}
+    <script>
+        layui.config({
+            base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'form', 'upload', 'laydate'], function () {
+            var $ = layui.$
+                , form = layui.form
+                , laydate = layui.laydate
+                , upload = layui.upload;
+            //监听提交
+            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                var field = data.field; //获取提交的字段
+                var file = $(".upload-input").val()
+                field.content = file;
+                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                $.ajax({
+                    url: "advert_form_save",
+                    type: 'post',
+                    data: field,
+                    success: function () {
+                        layer.msg("成功");
+                        parent.layui.table.reload('LAY-advert-banner-list'); //重载表格
+                        parent.layer.close(index); //再执行关闭
+                    },
+                    error: function (e) {
+                        layer.msg("失败")
+                    }
+                })
+
+            });
+            //日期范围
+            laydate.render({
+                elem: '#end_time',
+                type: 'datetime'
+            });
+            laydate.render({
+                elem: '#start_time',
+                type: 'datetime'
+            });
+
+            upload.render({
+                elem: '.layui-upload'
+                , url: "{:url('upload')}?flag=app"
+                , method: 'post'
+                , before: function (input) {
+                    layer.msg('文件上传中...', { time: 3000000 });
+                }, done: function (res, index, upload) {
+                    var obj = this.item;
+                    if (res.code == 0) {
+                        layer.msg(res.msg);
+                        return false;
+                    }
+                    layer.closeAll();
+                    var input = $(obj).parent().parent().find('.upload-input');
+                    if ($(obj).attr('lay-type') == 'image') {
+                        input.siblings('img').attr('src', res.data.file).show();
+                    }
+                    input.val(res.data.file);
+                    console.info(res);
+
+                    if (res.data.thumb_class != '') {
+                        $('.' + res.data.thumb_class).val(res.data.thumb[0].file);
+                    }
+                }
+            });
+
+            $('.upload-input').hover(function (e) {
+                var e = window.event || e;
+                var imgsrc = $(this).val();
+                if (imgsrc.trim() == "") {
+                    return;
+                }
+                var left = e.clientX + document.body.scrollLeft;
+                var top = e.clientY + document.body.scrollTop;
+                $(".showpic").css({ left: left, top: top, display: "" });
+                if (imgsrc.indexOf('://') < 0) {
+                    imgsrc = ROOT_PATH + '/' + imgsrc;
+                } else {
+                    imgsrc = imgsrc.replace('mac:', 'http:');
+                }
+                $(".showpic_img").attr("src", imgsrc);
+            }, function (e) {
+                $(".showpic").css("display", "none");
+            });
+
+
+
+
+        });
+    </script>
+</body>
+
+</html>

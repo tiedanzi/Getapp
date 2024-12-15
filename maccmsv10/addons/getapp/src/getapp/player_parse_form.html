@@ -1,0 +1,168 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+<div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-player-parse" id="layuiadmin-form-player-parse"
+     style="padding: 20px 30px 0 30px;">
+    <input type="text" name="key" style="display: none;" value="{$key}">
+    <input type="text" name="id" style="display: none;" value="{$info.id}">
+    <div class="layui-form-item">
+        <label class="layui-form-label" >APP显示</label>
+        <div class="layui-input-block">
+            <input name="app_is_show" type="radio" id="app_is_show-1" value="1" title="是" {if
+                   condition="$info['app_is_show'] eq 1" }checked {/if}>
+            <input name="app_is_show" type="radio" id="app_is_show-0" value="0" title="否" {if
+                   condition="$info['app_is_show'] eq 0" }checked {/if}>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" >接口类型</label>
+        <div class="layui-input-block">
+            <input name="jx_type" lay-filter="jx_type" type="radio" id="jx_type-0" value="0" title="直链播放" {if
+                   condition="$info['jx_type'] eq 0" }checked {/if}>
+            <input name="jx_type" lay-filter="jx_type" type="radio" id="jx_type-1" value="1" title="JSON解析" {if
+                   condition="$info['jx_type'] eq 1" }checked {/if}>
+            <input name="jx_type" lay-filter="jx_type" type="radio" id="jx_type-2" value="2" title="网页嗅探" {if
+                   condition="$info['jx_type'] eq 2" }checked {/if}>
+
+        </div>
+    </div>
+
+    <div class="layui-form-item" id="player_parse_type" {if
+         condition="$info['jx_type'] neq 1" }style="display: none" {/if}>
+        <label class="layui-form-label" >解析类型</label>
+        <div class="layui-input-block">
+            <input name="player_parse_type" type="radio" id="player_parse_type-1" value="1" title="服务端" {if
+                   condition="$info['player_parse_type'] eq 1" }checked {/if}>
+            <input name="player_parse_type" type="radio" id="player_parse_type-0" value="2" title="客户端" {if
+                   condition="$info['player_parse_type'] eq 2" }checked {/if}>
+
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" >播放器内核</label>
+        <div class="layui-input-block">
+            <input name="player_kernel_type" type="radio"  value="0" title="EXO" {if
+                   condition="$info['player_kernel_type'] eq 0" }checked {/if}>
+            <input name="player_kernel_type" type="radio"  value="1" title="IJK" {if
+                   condition="$info['player_kernel_type'] eq 1" }checked {/if}>
+            <input name="player_kernel_type" type="radio"  value="2" title="阿里云" {if
+                   condition="$info['player_kernel_type'] eq 2" }checked {/if}>
+            <input name="player_kernel_type" type="radio" value="4" title="腾讯云" {if
+                   condition="$info['player_kernel_type'] eq 4" }checked {/if}>
+
+        </div>
+    </div>
+<div class="layui-form-mid layui-word-aux getapp-word-aux">阿里云播放器需要打包的时候填写license key，否则会播放失败</div>
+<div class="layui-form-mid layui-word-aux getapp-word-aux">腾讯云播放器需要打包的时候填写license key及license url，否则会播放失败</div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label" >播放器名 <span class="red">*</span></label>
+        <div class="layui-input-block">
+            <input type="text" name="player_name" value="{$info.player_name}" lay-verify="required"  placeholder="播放器名称" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label">接口地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="parse_api" value="{$info.parse_api}"   placeholder="解析接口地址" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item" id="player_parse_key" {if
+         condition="$info['jx_type'] neq 1" }style="display: none" {/if}>
+        <label class="layui-form-label">接口密钥</label>
+        <div class="layui-input-block">
+            <input type="text" name="player_parse_key" value="{$info.player_parse_key}"   placeholder="填写后解析接口会添加token参数，token=md5(url+key)" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">链接特征</label>
+        <div class="layui-input-block">
+                <textarea name="link_features" placeholder="JSON解析下，若留空，取json中的url字段，建议留空。匹配接口地址返回结果包含其中某个特征的链接为播放链接，英文逗号分隔，默认为.m38u,.mp4" autocomplete="off"
+                          class="layui-textarea">{$info.link_features}</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">User-Agent</label>
+        <div class="layui-input-block">
+            <input type="text" name="user_agent" value="{$info.user_agent}" placeholder="请求头User-Agent" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Headers</label>
+        <div class="layui-input-block">
+                <textarea name="headers" placeholder="请求头，换行符分割，格式为Key=Value" autocomplete="off"
+                          class="layui-textarea">{$info.headers}</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-hide">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" id="layuiadmin-app-form-submit"
+                   value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+
+{include file="../../../application/admin/view/getapp/public/foot" /}
+<script>
+
+
+
+
+    layui.config({
+        base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form'], function () {
+        var $ = layui.$
+            , form = layui.form;
+
+        // 监听radio的点击事件
+        form.on('radio(jx_type)', function(data){
+            if (data.value == 1){
+                $("#player_parse_type").show()
+                $("#player_parse_key").show()
+            }else {
+                $("#player_parse_type").hide()
+                $("#player_parse_key").hide()
+            }
+
+        });
+
+        //监听提交
+        form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            var field = data.field; //获取提交的字段
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                url: "player_parse_form_save",
+                type: 'post',
+                data:field,
+                success: function () {
+                    layer.msg("成功");
+                    parent.layui.table.reload('LAY-player-parse-list'); //重载表格
+                    parent.layer.close(index); //再执行关闭
+                },
+                error: function (e) {
+                    layer.msg("失败")
+                }
+            })
+
+        });
+
+    });
+</script>
+</body>
+
+</html>

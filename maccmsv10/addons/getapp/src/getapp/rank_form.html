@@ -1,0 +1,79 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+<div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-advert-config" id="layuiadmin-form-advert-config"
+     style="padding: 20px 30px 30px 30px; background-color: white">
+
+    <div class="layui-form-item">
+
+
+        <label class="layui-form-label">排行选择 </label>
+        <div class="layui-input-block" id="api_list">
+            {foreach name="type" item="vo"}
+            <div class="layui-input-block">
+                <input type="checkbox" name="_{$vo['type_id']}" title="{$vo['type_name']}" value="{$vo['type_name']}"
+                {if condition="$config['getapp_param']['video_recommond'][$vo['type_id']]!=null "}checked {/if}>
+                <input name="{$vo['type_id']}-{$vo['type_name']}" type="radio" value="vod_hits" title="总榜" {if
+                       condition="$config['getapp_param']['video_recommond'][$vo['type_id']] eq vod_hits" }checked {/if}>
+                <input name="{$vo['type_id']}-{$vo['type_name']}" type="radio" value="vod_hits_month" title="月榜" {if
+                       condition="$config['getapp_param']['video_recommond'][$vo['type_id']] eq vod_hits_month" }checked {/if}>
+                <input name="{$vo['type_id']}-{$vo['type_name']}" type="radio" value="vod_hits_week" title="周榜" {if
+                       condition="$config['getapp_param']['video_recommond'][$vo['type_id']] eq vod_hits_week" }checked {/if}>
+                <input name="{$vo['type_id']}-{$vo['type_name']}" type="radio" value="vod_hits_day" title="日榜" {if
+                       condition="$config['getapp_param']['video_recommond'][$vo['type_id']] eq vod_hits_day" }checked {/if}>
+                <input name="{$vo['type_id']}-{$vo['type_name']}" type="radio" value="vod_hits_day" title="日榜" {if
+                       condition="$config['getapp_param']['video_recommond'][$vo['type_id']] eq vod_hits_day" }checked {/if}>
+                <input name="{$vo['type_id']}-{$vo['type_name']}" type="radio" value="vod_level" title="推荐8" {if
+                       condition="$config['getapp_param']['video_recommond'][$vo['type_id']] eq vod_level" }checked {/if}>
+
+            </div>
+
+            {/foreach}
+        </div>
+
+
+        <div class="layui-form-item center">
+            <div class="layui-input-block" style="margin-left: 0;text-align: center;margin-top: 50px">
+                <button type="submit" class="layui-btn" lay-submit id="layuiadmin-app-form-submit"
+                        lay-filter="layuiadmin-app-form-submit">保 存
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+{include file="../../../application/admin/view/getapp/public/foot" /}
+<script>
+
+    layui.config({
+        base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form', 'layer'], function () {
+        var $ = layui.$
+            , layer = layui.layer, form = layui.form
+        //监听提交
+        form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            var field = data.field; //获取提交的字段
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                url: "save_rank_form",
+                type: 'post',
+                data: field,
+                success: function () {
+                    layer.msg("成功");
+                },
+                error: function (e) {
+                    layer.msg("失败")
+                }
+            })
+        });
+
+
+    });
+</script>
+</body>
+
+</html>

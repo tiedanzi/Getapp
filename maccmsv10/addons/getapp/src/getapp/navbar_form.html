@@ -1,0 +1,72 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+<div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-advert-config" id="layuiadmin-form-advert-config"
+     style="padding: 20px 30px 30px 30px; background-color: white">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">发现页h5地址</label>
+            <div class="layui-input-block" style="width: auto">
+                <input style="width:500px" type="text" placeholder="为空就显示专题"  name="discovery_url" value="{$config['getapp_param']['discovery_url']}"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+
+
+            <label class="layui-form-label">功能选择</label>
+            <div class="layui-input-block" id="api_list">
+                {foreach name="$config['getapp_param']['banner']" item="vo"}
+                <input type="checkbox" name="banner{$vo['name']}" title="{$vo['name']}" {if condition="$vo['check']=='true' "}checked {/if}>
+                {/foreach}
+            </div>
+
+
+            <div class="layui-form-item center">
+                <div class="layui-input-block" style="margin-left: 0;text-align: center;margin-top: 50px">
+                    <button type="submit" class="layui-btn" lay-submit id="layuiadmin-app-form-submit"
+                            lay-filter="layuiadmin-app-form-submit">保 存
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+</div>
+
+{include file="../../../application/admin/view/getapp/public/foot" /}
+<script>
+
+    layui.config({
+        base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form', 'layer'], function () {
+        var $ = layui.$
+            , layer = layui.layer, form = layui.form
+        //监听提交
+        form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            var field = data.field; //获取提交的字段
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                url: "save_navbar_form",
+                type: 'post',
+                data: field,
+                success: function () {
+                    layer.msg("成功");
+                },
+                error: function (e) {
+                    layer.msg("失败")
+                }
+            })
+        });
+
+
+
+
+    });
+</script>
+</body>
+
+</html>

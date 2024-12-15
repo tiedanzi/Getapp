@@ -1,0 +1,94 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+<style>
+  .laytable-cell-1-0-6{
+    width:200px;
+  }
+</style>
+<body>
+
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">反馈内容</label>
+            <div class="layui-input-inline">
+              <input type="text" name="content" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+
+          <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-content-search">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="layui-card-body">
+        <div style="padding-bottom: 10px;">
+          <button class="layui-btn layuiadmin-btn-list layui-btn-danger" data-type="batchdel">删除</button>
+        </div>
+        <table id="LAY-content-list" lay-filter="LAY-content-list"></table>
+
+      </div>
+    </div>
+  </div>
+  {include file="../../../application/admin/view/getapp/public/foot" /}
+  <script>
+    layui.config({
+      base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+      index: 'lib/index' //主入口模块
+    }).use(['index', 'feedback', 'table'], function () {
+      var table = layui.table
+        , form = layui.form;
+      //监听搜索
+      form.on('submit(LAY-content-search)', function (data) {
+        var field = data.field;
+
+        //执行重载
+        table.reload('LAY-content-list', {
+          where: field
+        });
+      });
+      var $ = layui.$, active = {
+        batchdel: function () {
+          var checkStatus = table.checkStatus('LAY-content-list')
+                  , checkData = checkStatus.data; //得到选中的数据
+
+
+          if (checkData.length === 0) {
+            return layer.msg('请选择数据');
+          }
+
+          layer.confirm('确定删除吗？', function (index) {
+
+            var reqData = checkData.map(item => item.id).join(",");
+            $.ajax({
+              url: "feedback_form_delete",
+              type: 'post',
+              data: {
+                ids: reqData
+              },
+              success: function () {
+                layer.msg("成功");
+                table.reload('LAY-content-list'); //重载表格
+                layer.close(index); //再执行关闭
+              },
+              error: function (e) {
+                layer.msg("失败")
+              }
+            })
+          });
+        },
+      };
+      $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+      });
+
+    });
+  </script>
+</body>
+
+</html>

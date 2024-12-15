@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>APP后台管理</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="/addons/getapp/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="/addons/getapp/layuiadmin/style/admin.css" media="all">
+
+  <style>
+
+
+    .layui-side-menu .layui-nav .layui-nav-item > a {
+      padding-top: 5px;
+      height: 35px;
+      line-height: 35px;
+    }
+    *, ::after, ::before {
+      box-sizing: unset;
+    }
+    .text-center{
+      text-align: center;
+    }
+
+    .layui-form-item {
+      margin-top: 25px;
+      margin-bottom: 0;
+    }
+
+    .layui-layer-btn .layui-layer-btn0, .layui-btn {
+      color: #fff;
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .layui-btn-info {
+      color: #fff !important;
+      background-color: #138496 !important;
+      border-color: #117a8b !important;
+    }
+
+    .layui-btn-danger {
+      color: #fff !important;
+      background-color: #dc3545 !important;
+      border-color: #dc3545 !important;
+    }
+
+    .layui-btn-gray {
+      color: #212529 !important;
+      background-color: #6c757d !important;
+      border-color: #6c757d !important;
+    }
+
+
+
+    .layui-nav-tree .layui-this, .layui-nav-tree .layui-this>a, .layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a {
+      background-color: transparent !important;
+      background: linear-gradient(to right, #5D67E8, #ef4444) !important;
+
+    }
+
+   .layadmin-pagetabs .layui-tab-title li:hover, .layadmin-pagetabs .layui-tab-title li.layui-this {
+     background-color: transparent !important;
+     background: #393D49 !important;
+
+    }
+    .getapp-btn {
+      background: linear-gradient(to right, rgba(93, 103, 232, 0.7), rgba(239, 68, 68, 0.7)) !important;
+    }
+
+    .layui-tab-title .layui-this {
+      color: white;
+    }
+
+    .layui-tab-title li:hover {
+      color: white;
+    }
+    .layui-form-radio>i:hover, .layui-form-radioed>i{
+      color: #343a40;
+    }
+    .getapp-theme-color {
+      color: #007bff !important;
+    }
+
+    .layui-form-pane .layui-form-label {
+      background-color: #e9ecef;
+    }
+    .layui-table tbody tr:hover, .layui-table thead tr, .layui-table-click, .layui-table-header, .layui-table-hover, .layui-table-mend, .layui-table-patch, .layui-table-tool, .layui-table-total, .layui-table-total tr, .layui-table[lay-even] tr:nth-child(even){
+      background-color: #e9ecef;
+    }
+    .layui-laypage .layui-laypage-curr .layui-laypage-em{
+      background-color: #007bff;
+    }
+    .getapp-word-aux{
+      float: none;
+      margin: 5px 0;
+      padding: 2px 4px !important;
+      border-left: 5px solid #d0d1d3;
+      border-radius: 5px;
+      color: #23272b;
+    }
+    .getapp-word-aux-danger{
+      border-left: 5px solid #dc3545;
+    }
+    .layui-form-item .layui-inline {
+      margin-bottom: 0;
+    }
+    .layui-form-radio {
+      margin: 0;
+    }
+    .layui-layout-admin .layui-header {
+      border-bottom:unset;
+    }
+    .getapp-label {
+      width: 180px !important;
+    }
+    .getapp-input {
+      width:500px;
+    }
+    .getapp-type-box {
+      margin-top:30px; padding: 30px 5px;border: 1px solid  #007bff
+    }
+
+  </style>
+  <script>
+    var ROOT_PATH = "__ROOT__";
+  </script>
+</head>

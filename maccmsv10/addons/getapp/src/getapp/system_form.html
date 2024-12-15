@@ -1,0 +1,362 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+<style>
+    .layui-input-block {
+        margin-left: 180px !important;
+    }
+    .app_custom_icon {
+        width: 30px;
+        height: 30px;
+    }
+</style>
+<body>
+<div class="layui-form layui-form-pane" lay-filter="layuiadmin-form-reg" id="layuiadmin-form-reg"
+     style="padding: 20px 30px 30px 30px; background-color: white">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">初始化接口缓存</label>
+        <div class="layui-input-inline">
+            <input type="text" name="init_cache_time" placeholder="" value="{$system_config.init_cache_time|default=0}"
+                   class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">
+        0为不设置缓存，单位：秒；建议开启，开启后，若操作视频数据，需要清除缓存后才能生效！
+    </div>
+
+    <div class="layui-form-item ">
+        <label class="layui-form-label" style="width: 180px">APP会员组设置</label>
+        <div class="layui-input-inline">
+            <select name="vip_group_id">
+                <option value="-1">请选择APP会员组</option>
+                {volist name="group_list" id="vo"}
+                <option value="{$vo.group_id}" {if condition="$system_config['vip_group_id'] eq $vo['group_id']"
+                        }selected {/if}>{$vo.group_name}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">目前支持会员免广告</div>
+
+    <div class="layui-form-item ">
+        <label class="layui-form-label" style="width: 180px">首页banner：</label>
+        <div class="layui-input-inline">
+            <select name="system_banner_level">
+                <option value="9" {if condition="$system_config.system_banner_level eq 9" }selected{/if}>{:lang('level')}9-{:lang('slide')}</option>
+                <option value="1" {if condition="$system_config.system_banner_level eq 1" }selected{/if}>{:lang('level')}1</option>
+                <option value="2" {if condition="$system_config.system_banner_level eq 2" }selected{/if}>{:lang('level')}2</option>
+                <option value="3" {if condition="$system_config.system_banner_level eq 3" }selected{/if}>{:lang('level')}3</option>
+                <option value="4" {if condition="$system_config.system_banner_level eq 4" }selected{/if}>{:lang('level')}4</option>
+                <option value="5" {if condition="$system_config.system_banner_level eq 5" }selected{/if}>{:lang('level')}5</option>
+                <option value="6" {if condition="$system_config.system_banner_level eq 6" }selected{/if}>{:lang('level')}6</option>
+                <option value="7" {if condition="$system_config.system_banner_level eq 7" }selected{/if}>{:lang('level')}7</option>
+                <option value="8" {if condition="$system_config.system_banner_level eq 8" }selected{/if}>{:lang('level')}8</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item ">
+        <label class="layui-form-label" style="width: 180px">首页当前热播</label>
+        <div class="layui-input-inline">
+            <select name="system_hot_level">
+                <option value="8" {if condition="$system_config.system_hot_level eq 8" }selected{/if}>{:lang('level')}8</option>
+                <option value="1" {if condition="$system_config.system_hot_level eq 1" }selected{/if}>{:lang('level')}1</option>
+                <option value="2" {if condition="$system_config.system_hot_level eq 2" }selected{/if}>{:lang('level')}2</option>
+                <option value="3" {if condition="$system_config.system_hot_level eq 3" }selected{/if}>{:lang('level')}3</option>
+                <option value="4" {if condition="$system_config.system_hot_level eq 4" }selected{/if}>{:lang('level')}4</option>
+                <option value="5" {if condition="$system_config.system_hot_level eq 5" }selected{/if}>{:lang('level')}5</option>
+                <option value="6" {if condition="$system_config.system_hot_level eq 6" }selected{/if}>{:lang('level')}6</option>
+                <option value="7" {if condition="$system_config.system_hot_level eq 7" }selected{/if}>{:lang('level')}7</option>
+                <option value="9" {if condition="$system_config.system_hot_level eq 9" }selected{/if}>{:lang('level')}9-{:lang('slide')}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">开启VPN检测</label>
+        <div class="layui-input-block">
+            <input name="system_vpn_check_status" type="radio" id="system_vpn_check_status-0" value="0" title="关闭" {if
+                   condition="$system_config['system_vpn_check_status'] eq 0" }checked {/if}>
+            <input name="system_vpn_check_status" type="radio" id="system_vpn_check_status-1" value="1" title="开启" {if
+                   condition="$system_config['system_vpn_check_status'] eq 1" }checked {/if}>
+        </div>
+
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">开启三方弹幕</label>
+        <div class="layui-input-block">
+            <input name="system_third_danmu_status" type="radio" id="system_third_danmu_status-0" value="0" title="关闭"
+                   {if
+                   condition="$system_config['system_third_danmu_status'] eq 0" }checked {/if}>
+            <input name="system_third_danmu_status" type="radio" id="system_third_danmu_status-1" value="1" title="开启"
+                   {if
+                   condition="$system_config['system_third_danmu_status'] eq 1" }checked {/if}>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">弹幕视频链接</label>
+        <div class="layui-input-block">
+            <input name="system_third_danmu_url_type" type="radio" value="0" title="轮询匹配" {if
+                   condition="$system_config['system_third_danmu_url_type'] eq 0" }checked {/if}>
+            <input name="system_third_danmu_url_type" type="radio" value="1" title="原链接" {if
+                   condition="$system_config['system_third_danmu_url_type'] eq 1" }checked {/if}>
+
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">
+        【轮询匹配】会按匹配顺序查询视频数据下的所有链接；【原链接】会使用当前所选播放源及所选集数对应的视频链接
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">弹幕匹配顺序</label>
+        <div class="layui-input-block">
+            <input style="width:500px" type="text" name="third_danmu_sort" value="{$system_config.third_danmu_sort}"
+                   placeholder="选填，弹幕匹配顺序，逗号分割" autocomplete="off" class="layui-input">
+
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">
+        选择【轮询匹配】时的匹配顺序，逗号分割。示例：填写【www.bilibili.com,v.qq.com,www.iqiyi.com】，则会优先匹配包含【www.bilibili.com】的链接，未找到再依次匹配【v.qq.com】、【www.iqiyi.com】
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">三方弹幕地址</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="third_danmu_url" value="{$info.third_danmu_url}"
+                   placeholder="选填，三方弹幕地址" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">
+        若填写：【http://dm.app.com?ac=dm】，APP则会请求：【http://dm.app.com?ac=dm&douban_id=xxx&url=xxx】地址获取弹幕（留空不会请求三方弹幕）
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">弹幕审核：</label>
+        <div class="layui-input-block">
+            <input name="system_danmu_status" type="radio" id="system_danmu_status-0" value="0" title="关闭" {if
+                   condition="$info['system_danmu_status'] eq 0" }checked {/if}>
+            <input name="system_danmu_status" type="radio" id="system_danmu_status-1" value="1" title="开启" {if
+                   condition="$info['system_danmu_status'] eq 1" }checked {/if}>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">分享文案</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="app_share_text" value="{$system_config.app_share_text}"
+                   placeholder="分享文案" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">
+       分享的下载文案，会自动加上邀请码，可以使用地址+文案的形式，可直接在浏览器打开。
+    </div>
+
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">联系方式文案：</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="app_contact_text" placeholder=""
+                   value="{$info.app_contact_text}"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">示例：QQ:666666</div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">联系方式链接：</label>
+        <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+            <input style="width:500px" type="text" name="app_contact_url" placeholder="" value="{$info.app_contact_url}"
+                   class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">
+        示例：https://www.google.com（链接会直接跳转，非链接会复制到粘贴板）
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 180px">搜索引擎</label>
+        <div class="layui-input-block">
+            <input name="system_config_search_list_type" type="radio" value="0" title="Mysql" {if
+                   condition="$system_config['system_config_search_list_type'] eq 0" }checked {/if}>
+            <input name="system_config_search_list_type" type="radio" value="1" title="讯搜（xunSearch）" {if
+                   condition="$system_config['system_config_search_list_type'] eq 1" }checked {/if}>
+        </div>
+    </div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">1.使用讯搜，需要安装xunSearch，教程：<a
+            style="margin-right: 20px;text-decoration:underline" href="https://www.getapp.tv/docs/movie/xunsearch.html"
+            target="_blank">点击查看教程</a></div>
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">
+        2.初始化链接【{$xun_search_build_index_url}】，浏览器访问该链接，初始化xunSearch，删除视频数据后也需要手动访问该链接
+    </div>
+
+    <div class="layui-form-mid layui-word-aux getapp-word-aux">
+        3.同步链接【{$xun_search_build_update_url}】，将该链接添加至计划任务，该链接用于新增数据同步，建议在采集定时任务后执行
+    </div>
+
+    <!--        <div class="layui-form-item">-->
+    <!--            <label class="layui-form-label" style="width: 180px">接口请求校验</label>-->
+    <!--            <div class="layui-input-block">-->
+    <!--                <input name="api_request_verify" type="radio"  value="0" title="关闭" {if-->
+    <!--                       condition="$info['api_request_verify'] eq 0" }checked {/if}>-->
+    <!--                <input name="api_request_verify" type="radio"  value="1" title="开启" {if-->
+    <!--                       condition="$info['api_request_verify'] eq 1" }checked {/if}>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="layui-form-mid layui-word-aux getapp-word-aux" >若有国外用户，不要开启，时区不正确会导致验证失败；开启后会校验接口参数和接口时效</div>-->
+    <div class="getapp-type-box">
+        <p class="getapp-theme-color" style="font-size:16px">置顶评论设置</p>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">置顶评论</label>
+            <div class="layui-input-block">
+                <input name="system_config_top_comment_status" type="radio" value="0" title="关闭" {if
+                       condition="$system_config['system_config_top_comment_status'] eq 0" }checked {/if}>
+                <input name="system_config_top_comment_status" type="radio" value="1" title="开启" {if
+                       condition="$system_config['system_config_top_comment_status'] eq 1" }checked {/if}>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">置顶评论头像</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input type="text" style="width:500px" name="system_config_top_comment_avtar" placeholder="置顶评论头像"
+                       value="{$system_config.system_config_top_comment_avtar}" autocomplete="off" class="layui-input upload-input">
+            </div>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <button type="button" class="layui-btn  layui-upload-app-custom-icon" data-name="system_config_top_comment_avtar">上传头像
+                </button>
+                <div style="margin-left: 16px;margin-top: 10px">
+                    <span></span><br>
+                </div>
+            </div>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <img class="app_custom_icon" {if condition="$system_config['system_config_top_comment_avtar'] neq ''" }src="{$system_config.system_config_top_comment_avtar_url}"{/if}>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">置顶评论昵称</label>
+            <div class="layui-input-inline" style="width: auto;display: inline-flex;">
+                <input style="width:500px" type="text" name="system_config_top_comment_name" placeholder=""
+                       value="{$system_config.system_config_top_comment_name}"
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 180px">置顶评论内容</label>
+            <div class="layui-input-block">
+                <textarea name="system_config_top_comment_content" placeholder="请输入置顶评论内容"
+                          class="layui-textarea">{$system_config.system_config_top_comment_content}</textarea>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="layui-form-item center">
+        <div class="layui-input-block" style="margin-left: 0;text-align: center;margin-top: 50px">
+            <button type="submit" class="layui-btn" lay-submit id="layuiadmin-app-form-submit"
+                    lay-filter="layuiadmin-app-form-submit">保 存
+            </button>
+            <button type="submit" class="layui-btn layui-btn-info" lay-submit id="layuiadmin-app-form-clear"
+                    lay-filter="layuiadmin-app-form-clear">清除缓存
+            </button>
+        </div>
+    </div>
+</div>
+
+{include file="../../../application/admin/view/getapp/public/foot" /}
+<script>
+
+    layui.config({
+        base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form', 'layer', 'upload'], function () {
+        var $ = layui.$
+            , layer = layui.layer, form = layui.form
+            , upload = layui.upload
+        //监听提交
+        form.on('submit(layuiadmin-app-form-submit)', function (data) {
+            var field = data.field; //获取提交的字段
+            //提交 Ajax 成功后，关闭当前弹层并重载表格
+            $.ajax({
+                url: "save_system_form",
+                type: 'post',
+                data: field,
+                success: function () {
+                    layer.msg("成功");
+                },
+                error: function (e) {
+                    layer.msg("失败")
+                }
+            })
+        });
+
+        form.on('submit(layuiadmin-app-form-clear)', function (data) {
+            $.ajax({
+                url: "clear_system_cache",
+                type: 'post',
+                data: [],
+                success: function () {
+                    layer.msg("成功");
+                },
+                error: function (e) {
+                    layer.msg("失败")
+                }
+            })
+        });
+
+        upload.render({
+            elem: '.layui-upload-app-custom-icon'
+            , url: "{:url('upload')}?flag=app"
+            , method: 'post'
+            , size: "1000"
+            , accept: 'file'
+            , exts: 'jpg|png|gif|jpeg'
+
+            , before: function (input) {
+                var obj = this.item;
+                this.data = {
+                    file_name: $(obj).attr("data-name"),
+                }
+                layer.msg('文件上传中...', {time: 3000000});
+            }, done: function (res, index, upload) {
+                var obj = this.item;
+                if (res.code == 0) {
+                    layer.msg(res.msg);
+                    return false;
+                }
+                layer.closeAll();
+                var input = $(obj).parent().parent().find('.upload-input');
+                if ($(obj).attr('lay-type') == 'image') {
+                    input.siblings('img').attr('src', res.data.file).show();
+                }
+                input.val(res.data.file);
+
+                var icon = $(obj).parent().next().find('.app_custom_icon');
+                icon.attr('src', "/" + res.data.file);
+                console.info(res);
+
+                if (res.data.thumb_class != '') {
+                    $('.' + res.data.thumb_class).val(res.data.thumb[0].file);
+                }
+
+
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>

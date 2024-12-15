@@ -1,0 +1,89 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+<style>
+  .laytable-cell-1-0-9{
+    width: auto !important;
+  }
+</style>
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+
+      <div class="layui-card-body">
+        <div style="padding-bottom: 10px;">
+          <button class="layui-btn layui-btn-danger layuiadmin-btn-list" data-type="batchdel">删除</button>
+          <button class="layui-btn layuiadmin-btn-list" data-type="add">添加</button>
+        </div>
+        <table id="LAY-app-version-list" lay-filter="LAY-app-version-list"></table>
+        <script type="text/html" id="table-version-list">
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        </script>
+      </div>
+    </div>
+  </div>
+  {include file="../../../application/admin/view/getapp/public/foot" /}
+  <script>
+    layui.config({
+      base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+      index: 'lib/index' //主入口模块
+    }).use(['index', 'version', 'table'], function () {
+      var table = layui.table
+        , form = layui.form;
+
+      var $ = layui.$, active = {
+        batchdel: function () {
+          var checkStatus = table.checkStatus('LAY-app-version-list')
+            , checkData = checkStatus.data; //得到选中的数据
+
+          if (checkData.length === 0) {
+            return layer.msg('请选择数据');
+          }
+
+          layer.confirm('确定删除吗？', function (index) {
+
+            var reqData = checkData.map(item => item.id).join(",");
+            $.ajax({
+              url: "version_form_delete",
+              type: 'post',
+              data: {
+                ids: reqData
+              },
+              success: function () {
+                layer.msg("成功");
+                table.reload('LAY-app-version-list'); //重载表格
+                layer.close(index); //再执行关闭
+              },
+              error: function (e) {
+                layer.msg("失败")
+              }
+            })
+          });
+        },
+        add: function () {
+          layer.open({
+            type: 2
+            , title: '添加版本'
+            , content: 'view_version_form'
+            , maxmin: true
+            , area: ['600px', '600px']
+            , btn: ['确定', '取消']
+            , yes: function (index, layero) {
+              //点击确认触发 iframe 内容中的按钮提交
+              var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
+              submit.click();
+            }
+          });
+        }
+      };
+
+      $('.layui-btn.layuiadmin-btn-list').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+      });
+
+    });
+  </script>
+</body>
+
+</html>

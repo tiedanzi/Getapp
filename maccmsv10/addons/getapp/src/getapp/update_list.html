@@ -1,0 +1,39 @@
+{include file="../../../application/admin/view/getapp/public/head" /}
+
+<body>
+
+  <div class="layui-fluid">
+    <div class="layui-card">
+
+      <div class="layui-card-body">
+
+        <table id="LAY-update-list" lay-filter="LAY-update-list"></table>
+
+      </div>
+    </div>
+  </div>
+  {include file="../../../application/admin/view/getapp/public/foot" /}
+  <script>
+    layui.config({
+      base: '../../../addons/getapp/layuiadmin/' //静态资源所在路径
+    }).extend({
+      index: 'lib/index' //主入口模块
+    }).use(['index', 'update', 'table'], function () {
+      var table = layui.table
+        , form = layui.form;
+      //监听搜索
+      form.on('submit(LAY-update-search)', function (data) {
+        var field = data.field;
+
+        //执行重载
+        table.reload('LAY-update-list', {
+          where: field
+        });
+      });
+
+
+    });
+  </script>
+</body>
+
+</html>
